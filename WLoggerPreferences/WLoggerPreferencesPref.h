@@ -23,6 +23,12 @@
 	IBOutlet NSTextField *uvLabel;
 	IBOutlet NSLevelIndicator *uvBatteryIndicator;
 	IBOutlet NSProgressIndicator *spinner;
+	IBOutlet NSTextField *clockSynkLabel;
+	IBOutlet NSLevelIndicator *clockSynkIndicator;
+	IBOutlet NSTextField *basePowerLabel;
+	IBOutlet NSButton *basePowerIndicator;
+	
+	IBOutlet NSButton *debugLogging;
 
 
 	NSConnection *connection;

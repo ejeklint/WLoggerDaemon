@@ -13,6 +13,10 @@
 #define KEY_LEVEL_UV @"uvBatteryLevel"
 #define KEY_LEVEL_SENSOR_ @"tempBatteryLevelSensor_"
 
+#define KEY_POWER_BASE @"baseStationPower"
+#define KEY_RADIO_CLOCK_SYNC @"baseRadioSync"
+#define KEY_RADIO_CLOCK_LEVEL @"baseRadioLevel"
+
 
 @protocol RemoteProtocol
 

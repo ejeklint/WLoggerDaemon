@@ -27,7 +27,7 @@
 
 
 - (void) didSelect {
-	if (!proxy) {
+	if (!proxy || !settings) {
 		// No connection to daemon, inform user
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 		[alert addButtonWithTitle:@"OK"];
@@ -83,6 +83,24 @@
 		} else {
 			[uvBatteryIndicator setIntValue:0];
 			[uvLabel setTextColor:[NSColor grayColor]];
+		}
+		
+		l = [levels objectForKey:KEY_RADIO_CLOCK_SYNC];
+		if (l) {
+			[clockSynkIndicator setIntValue:[l integerValue]];
+			[clockSynkLabel setTextColor:[NSColor blackColor]];
+		} else {
+			[clockSynkIndicator setIntValue:0];
+			[clockSynkLabel setTextColor:[NSColor grayColor]];
+		}
+		l = [levels objectForKey:KEY_POWER_BASE];
+		if (l) {
+			[basePowerIndicator setState:([l boolValue] ? NSOnState : NSOffState)];
+			[basePowerLabel setTextColor:[NSColor grayColor]];
+		} else {
+			[basePowerIndicator setState:NSOffState];
+			[basePowerIndicator setEnabled:NO];
+			[basePowerLabel setTextColor:[NSColor grayColor]];
 		}
 	}
 }

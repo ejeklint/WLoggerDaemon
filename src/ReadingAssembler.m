@@ -336,6 +336,12 @@ static int minuteCycleDone;
 			BOOL syncedWithRF = rb[0] & 0x20;
 			BOOL strongRFSignal = rb[0] & 0x10;
 			
+			NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:3];
+			[report setObject:[NSNumber numberWithBool:noPower] forKey:KEY_POWER_BASE];
+			[report setObject:[NSNumber numberWithBool:syncedWithRF] forKey:KEY_RADIO_CLOCK_SYNC];
+			[report setObject:[NSNumber numberWithBool:strongRFSignal] forKey:KEY_RADIO_CLOCK_LEVEL];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"LevelReport" object:self userInfo:report];
+			
 			if (noPower) {
 				// Not good! Alert user once every hour
 				// Not much meaning if computer also lost power, but some people do have UPS
@@ -355,25 +361,13 @@ static int minuteCycleDone;
 				} */
 			}
 			
+			// TODO: Check if this is useful or if it comes from temp sensor 0
 			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:@"Base Unit"];
-			
-			if (!syncedWithRF == 0) {
-				//				NSLog(@"Not synchronized to RF source");
-			}
-			
-			if (!strongRFSignal == 0) {
-				//				NSLog(@"Weak RF signal");
-			}
-						
-			// Make a JavaScript Date compatible timestamp (ms since 1970-01-01) and use as id
-//			long long timestampForId = (long long) ([time timeIntervalSince1970] * 1000);
-
+									
 			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
 			[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
 			
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
-//			[userInfo setObject:[[NSNumber numberWithLongLong:timestampForId] stringValue] forKey:KEY_COUCH_ID];
-//			[userInfo setObject: [dateFormatter stringFromDate:time] forKey:KEY_TIMESTAMP];
 			[userInfo setObject: [dateFormatter stringFromDate:time] forKey:KEY_COUCH_ID];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"MinuteReport" object:self userInfo:userInfo];
 
