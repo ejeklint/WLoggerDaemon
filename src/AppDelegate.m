@@ -25,42 +25,62 @@ static BOOL gDebugPrint;
 - (id) init {
 	if ((self = [super init]))
 	{
-		ra = [[ReadingAssembler alloc] init];
-		wmr100n = [[WMR100NDeviceController alloc] init];	
-		weatherReport = [[SBCouchDocument alloc] init];
-		
-		// Get the settings. If no exist, create a default set save it.
-		NSDictionary *settings = [self getSettings];
-		if (!settings || [settings count] == 0) {
-			// Set up default settings
-			NSMutableDictionary *new = [[NSMutableDictionary alloc] initWithCapacity:6];
-			[new setObject:@"localhost" forKey:@"couchDBURL"];
-			[new setObject:[NSNumber numberWithInt:5984] forKey:@"couchDBPort"];
-			[new setObject:@"" forKey:@"couchDBUser"];
-			[new setObject:@"wdata" forKey:@"couchDBDBName"];
-			[new setObject:@"2" forKey:@"couchDBUpdateInterval"];
-			[new setObject:[NSNumber numberWithBool:YES] forKey:@"useComputersClock"];
-			[new setObject:[NSNumber numberWithBool:NO] forKey:@"useTwitter"];
-			[new setObject:@"" forKey:@"twitterUser"];
-			[self saveSettings:new];
-			settings = new;
+		CFBooleanRef temp;
+		temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useDebugLogging"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+		if (temp) {
+			gDebugPrint = CFBooleanGetValue(temp);
 		}
 		
-		[self setupTwitter:settings];
-		[self setupCouchDB:settings];
-		[self setupNotificationSubscription];
-		[self setupConnection];
-		
-		// Set up the tick timer
-		myTickTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick:) userInfo:NULL repeats:YES];
-		
-		// Set up self as Growl delegate.
-//		[GrowlApplicationBridge setGrowlDelegate:self];
+		// Postpone the setup a few seconds to make sure other stuff is up and running
+		[self performSelector:@selector(setup:) withObject:self afterDelay:5.0];
 		
 		return self;
 	}
 	return nil;
 }
+
+
+
+// delayed setup to other processes get to start before WLoggerDaemon. CouchDB for example...
+- (void) setup: (id) anObject {
+	NSLog(@"Finalizing setup of WLoggerDaemon");
+	
+	(void) anObject;
+
+	ra = [[ReadingAssembler alloc] init];
+	wmr100n = [[WMR100NDeviceController alloc] init];	
+	weatherReport = [[SBCouchDocument alloc] init];
+	levels = [NSMutableDictionary dictionaryWithCapacity:5];
+	
+	// Get the settings. If no exist, create a default set save it.
+	NSDictionary *settings = [self getSettings];
+	if (!settings || [settings count] == 0) {
+		// Set up default settings
+		NSMutableDictionary *new = [[NSMutableDictionary alloc] initWithCapacity:6];
+		[new setObject:@"localhost" forKey:@"couchDBURL"];
+		[new setObject:[NSNumber numberWithInt:5984] forKey:@"couchDBPort"];
+		[new setObject:@"" forKey:@"couchDBUser"];
+		[new setObject:@"wdata" forKey:@"couchDBDBName"];
+		[new setObject:@"2" forKey:@"couchDBUpdateInterval"];
+		[new setObject:[NSNumber numberWithBool:YES] forKey:@"useComputersClock"];
+		[new setObject:[NSNumber numberWithBool:NO] forKey:@"useTwitter"];
+		[new setObject:@"" forKey:@"twitterUser"];
+		[self saveSettings:new];
+		settings = new;
+	}
+	
+	[self setupTwitter:settings];
+	[self setupCouchDB:settings];
+	[self setupNotificationSubscription];
+	[self setupConnection];
+	
+	// Set up the tick timer
+	myTickTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick:) userInfo:NULL repeats:YES];
+	
+	// Set up self as Growl delegate.
+	//		[GrowlApplicationBridge setGrowlDelegate:self];
+}
+
 
 
 #pragma mark Remote Objects methods BEGIN
@@ -85,6 +105,10 @@ static BOOL gDebugPrint;
 	return (NSDictionary*) dref;
 }
 
+- (NSDictionary *) getLevels {
+	return [NSDictionary dictionaryWithDictionary:levels];
+}
+
 
 - (BOOL) saveSettings: (NSDictionary *) settings {
 	for (id key in settings) {
@@ -97,7 +121,7 @@ static BOOL gDebugPrint;
 	if (![settings objectForKey:@"twitterUser"]) {
 		CFPreferencesSetValue(CFSTR("twitterUser"), CFSTR(""), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 	}
-	
+		
 	int interval = [[settings objectForKey:@"couchDBUpdateInterval"] integerValue];
 	if (interval < 1 || interval > 1000)
 		interval = 2; // Reasonable default value if it should be missing
@@ -105,6 +129,8 @@ static BOOL gDebugPrint;
 	if (DEBUGALOT)
 		NSLog(@"Setting update interval to %d", interval);
 	
+	gDebugPrint = [[settings objectForKey:@"useDebugLogging"] boolValue];
+
 	// Save to disk
 	CFPreferencesSynchronize(APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 	return YES;
@@ -120,7 +146,14 @@ static BOOL gDebugPrint;
 	NSString *username = [settings objectForKey:@"twitterUser"];
 	if ([username length] > 0) {
 		EMGenericKeychainItem *keychainItem = [KeyChainHandler getTwitterKeychainItemForUser: username];
+		NSLog(@"Got keychain %@", keychainItem);
+		
+		NSString *test = [NSString stringWithFormat:@"Twitteruser %@ pwd: %@", username, [keychainItem password]];
+		NSLog(test);
+		
 		[twitterEngine setUsername:username password:[keychainItem password]];
+		NSString *s = [NSString stringWithFormat:@"WLoggerDaemon started %@ and will nag the twitterSphere", [NSDate date]];
+		[twitterEngine sendUpdate:s];
 //		[twitterEngine checkUserCredentials];
 	} else {
 		return NO;
@@ -242,26 +275,28 @@ static BOOL gDebugPrint;
 	unsigned unitFlags = NSMinuteCalendarUnit | NSSecondCalendarUnit | NSHourCalendarUnit;
 	NSDateComponents *dc = [[NSCalendar currentCalendar] components:unitFlags fromDate: now];
 
+	CFBooleanRef temp;
+	temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+
 	// Tweet update every 60 minutes @ 00 seconds
-	if ([dc second] == 0
-		&& [dc minute] == 0
-		&& CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost)) {
+	if ([dc second] == 0 && [dc minute] == 0 && CFBooleanGetValue(temp)) {
 		[self updateTwitter];
 	}
 }
 
 
-- (void)dealloc {
+- (void) dealloc {
 	[super dealloc];
 }
 
 
-- (void)setupNotificationSubscription {
+- (void) setupNotificationSubscription {
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
 	
 	// Notifications from ReadAssembler
 	[nc addObserver:self selector:@selector(readingListener:) name:@"Reading" object:nil];
 	[nc addObserver:self selector:@selector(minuteReportListener:) name:@"MinuteReport" object:nil];
+	[nc addObserver:self selector:@selector(levelReportListener:) name:@"LevelReport" object:nil];
 	
 	// Notifications from DeviceController
 	[nc addObserver:self selector:@selector(deviceAddedListener:) name:@"DeviceAdded" object:nil];
@@ -269,9 +304,8 @@ static BOOL gDebugPrint;
 }
 
 
-- (void)readingListener:(NSNotification *)notification {	
+- (void) readingListener:(NSNotification *)notification {	
 	NSDictionary *userInfo = [notification userInfo];
-//	NSLog(@"****** Got reading: %@", userInfo);
 	
 	// Add a timestamp so we can sort out too old readings
 	NSDate *now = [NSDate date];
@@ -286,9 +320,9 @@ static BOOL gDebugPrint;
 }
 
 	
-- (void)minuteReportListener:(NSNotification *)notification {
+- (void) minuteReportListener:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];
-
+	
 	// Store report
 	SBCouchDocument *storedReport = [[SBCouchDocument alloc] initWithNSDictionary:userInfo couchDatabase:db];
 	[storedReport setObject:KEY_DOC_READINGS forKey:KEY_DOC_DOCTYPE];
@@ -305,8 +339,15 @@ static BOOL gDebugPrint;
 		}
 		[storedReport addEntriesFromDictionary:[dict objectForKey:KEY_READINGS]];
 	}
-
+	
 	[storedReport put];
+}
+
+- (void) levelReportListener:(NSNotification *)notification {
+	NSDictionary *userInfo = [notification userInfo];
+	
+	[levels addEntriesFromDictionary:userInfo];
+	NSLog(@"Levels: %@", levels);
 }
 
 

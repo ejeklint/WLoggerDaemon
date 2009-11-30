@@ -25,6 +25,7 @@
     SBCouchServer *couch;
     SBCouchDatabase *db;
 	NSMutableDictionary *weatherReport;
+	NSMutableDictionary *levels;
 }
 
 + (BOOL) debugPrint;

@@ -111,10 +111,12 @@ NSData *previousReports[10];
 
 - (void) handleReport:(IOHIDValueRef) inIOHIDValueRef {
 	CFIndex length = IOHIDValueGetLength(inIOHIDValueRef); // Get report length
+	
+	const uint8_t *reportbuf = IOHIDValueGetBytePtr(inIOHIDValueRef); // Pointer to report	
+//	NSLog(@"Report received, length %d: %@", length, [[NSData dataWithBytes:reportbuf length:length] description]);
 	if (length != WMR100N_REPORT_SIZE)
 		return; // We only care about 8 byte reports
 	
-	const uint8_t *reportbuf = IOHIDValueGetBytePtr(inIOHIDValueRef); // Pointer to report
 	
 	unsigned int actualReportLength = reportbuf[0]; // Get number of bytes that matters in this report
 

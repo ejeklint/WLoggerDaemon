@@ -9,6 +9,7 @@
 #import "ReadingAssembler.h"
 #import "AppDelegate.h"
 #import "DataKeys.h"
+#import "RemoteProtocol.h"
 #import <math.h>
 //#import <Growl/GrowlApplicationBridge.h>
 
@@ -51,8 +52,15 @@ static int minuteCycleDone;
 
 
 - (void) checkBatteryReading: (uint8) reading andPostNotificationIfLowForUnit:(NSString*) unit {
-/*	if (reading & 0x40) {
-		// Post a Growl warning once a day
+	int level = (reading & 0x40) ? 1 : 2; // 1 for low battery, 2 for full
+	
+	NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:1];
+	[report setObject:[NSNumber numberWithInt:level] forKey:unit];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"LevelReport" object:self userInfo:report];
+
+	/*	if (reading & 0x40) {
+	 
+	 // Post a Growl warning once a day
 		NSDate *dateForPreviousWarning = [[NSUserDefaults standardUserDefaults] objectForKey:@"LatestBatteryWarningDate"];
 		
 		if (dateForPreviousWarning == nil || [[NSDate date] timeIntervalSinceDate:dateForPreviousWarning] > 86400) {
@@ -137,7 +145,7 @@ static int minuteCycleDone;
 			if (DEBUGALOT)
 				NSLog(@"Rain report: %@", userInfo);
 				
-			[self checkBatteryReading:rb[0]	andPostNotificationIfLowForUnit:@"Rain Gauge"];
+			[self checkBatteryReading:rb[0]	andPostNotificationIfLowForUnit:KEY_LEVEL_RAIN];
 			
 			break;
 		}
@@ -147,7 +155,7 @@ static int minuteCycleDone;
 		case 0x42: {
 			UInt8 sensor = rb[2] & 0x0f;
 
-			[self checkBatteryReading:rb[0]	andPostNotificationIfLowForUnit:[NSString stringWithFormat:@"Temperature Unit %d", sensor] ];
+			[self checkBatteryReading:rb[0]	andPostNotificationIfLowForUnit:[NSString stringWithFormat:@"%@%d", KEY_LEVEL_SENSOR_, sensor] ];
 
 			double temp = [self roundedDoubleFromHighByte:(rb[4] & 0x0f) lowByte:rb[3] conversionFactor:0.1];
 			if (rb[4] & 0x80)
@@ -243,7 +251,7 @@ static int minuteCycleDone;
 		case 0x47: {
 			unsigned uvIndex = rb[3];
 
-			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:@"UV Meter"];
+			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:KEY_LEVEL_UV];
 
 			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:uvIndex] forKey:KEY_UV_INDEX];			[self sendReadings:userInfo ofType:KEY_UV_READING];
 
@@ -256,7 +264,7 @@ static int minuteCycleDone;
 			// Anemometer report
 			//
 		case 0x48: {
-			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:@"Wind Meter"];
+			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:KEY_LEVEL_WIND];
 
 			double windGust = [self roundedDoubleFromHighByte:(rb[5] & 0x0f) lowByte:rb[4] conversionFactor:0.1];
 			
