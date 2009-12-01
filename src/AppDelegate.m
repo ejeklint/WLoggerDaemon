@@ -118,6 +118,8 @@ static BOOL gDebugPrint;
 	if (![settings objectForKey:@"twitterUser"]) {
 		CFPreferencesSetValue(CFSTR("twitterUser"), CFSTR(""), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 	}
+	// Save to disk
+	CFPreferencesSynchronize(APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 		
 	int interval = [[settings objectForKey:@"couchDBUpdateInterval"] integerValue];
 	if (interval < 1 || interval > 1000)
@@ -128,40 +130,43 @@ static BOOL gDebugPrint;
 	
 	gDebugPrint = [[settings objectForKey:@"useDebugLogging"] boolValue];
 
-	// Save to disk
-	CFPreferencesSynchronize(APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+	[self setupTwitter:settings];
+	[self setupCouchDB:settings];
+	
 	return YES;
 }
 
 
 - (BOOL) setupTwitter: (NSDictionary*) settings {
 	
-	CFBooleanRef temp;
-	temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
-	
-	if (!CFBooleanGetValue(temp)) {
-		if (myTickTimer)
+	if (![[settings objectForKey:@"useTwitter"] boolValue]) {
+		if (myTickTimer) {
+			[myTickTimer invalidate];
 			[myTickTimer release];
-		myTickTimer = NULL;
+			myTickTimer = NULL;
+		}
 		return NO;
 	}
-	
+												   
 	if (!twitterEngine)
 		twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	else
 		[twitterEngine closeAllConnections];
 	
 	NSString *username = [settings objectForKey:@"twitterUser"];
+	NSString *password = [settings objectForKey:@"twitterPassword"];
+	
 	if ([username length] > 0) {
-		EMGenericKeychainItem *keychainItem = [KeyChainHandler getTwitterKeychainItemForUser: username];
-		NSLog(@"Got keychain %@", keychainItem);
-		
-		NSString *test = [NSString stringWithFormat:@"Twitteruser %@ pwd: %@", username, [keychainItem password]];
-		NSLog(@"%@", test);
-		
-		[twitterEngine setUsername:username password:[keychainItem password]];
-		NSString *s = [NSString stringWithFormat:@"WLoggerDaemon started %@ and will nag the twitterSphere", [NSDate date]];
-		[twitterEngine sendUpdate:s];
+//		EMGenericKeychainItem *keychainItem = [KeyChainHandler getTwitterKeychainItemForUser: username];
+//		NSLog(@"Got keychain %@", keychainItem);
+//		
+//		NSString *test = [NSString stringWithFormat:@"Twitteruser %@ pwd: %@", username, [keychainItem password]];
+//		NSLog(@"%@", test);
+//		
+//		[twitterEngine setUsername:username password:[keychainItem password]];
+		[twitterEngine setUsername:username password:password];
+		NSString *s = [NSString stringWithFormat:@"WLogger is started at %@ and will nag the twitterSphere", [NSDate date]];
+//		[twitterEngine sendUpdate:s];
 //		[twitterEngine checkUserCredentials];
 	} else {
 		return NO;
@@ -172,8 +177,8 @@ static BOOL gDebugPrint;
 	NSDate *nextHour = [NSDate dateWithTimeIntervalSinceReferenceDate: (int)(since2001 / 3600) * 3600 + 3600]; 
 	
 	myTickTimer = [[NSTimer alloc] initWithFireDate:nextHour interval:3600 target:self selector:@selector(updateTwitter:) userInfo:NULL repeats:YES];
-	
-	[self saveSettings: settings];
+	[[NSRunLoop currentRunLoop] addTimer:myTickTimer forMode:NSDefaultRunLoopMode];
+
 	return YES;
 }
 
@@ -182,20 +187,19 @@ static BOOL gDebugPrint;
 	NSNumber *port = [settings valueForKey:@"couchDBPort"];	
 	NSString *couchDBDBName = [settings valueForKey:@"couchDBDBName"];
 	NSString *username = [settings valueForKey:@"couchDBUser"];
+	NSString *password = [settings valueForKey:@"couchDBPassword"];
 	
 	NSString *hoststring;
 	if ([username length] > 0) {
-		EMGenericKeychainItem *keychainItem = [KeyChainHandler getCouchDBKeychainItemForUser: username]; 
+//		EMGenericKeychainItem *keychainItem = [KeyChainHandler getCouchDBKeychainItemForUser: username]; 
 		hoststring = [NSString stringWithFormat:@"%@:%@@%@",
-					  [settings valueForKey:@"couchDBUser"],
-					  [keychainItem password],
+					  username,
+//					  [keychainItem password],
+					  password,
 					  [settings valueForKey:@"couchDBURL"]];
 	} else {
 		hoststring = [settings valueForKey:@"couchDBURL"];
 	}
-	
-	if (DEBUGALOT)
-		NSLog(@"Calling CouchDB with: %@:%d/%@", hoststring, [port integerValue], couchDBDBName);
 	
 	SBCouchServer *tmpCouch = [[SBCouchServer alloc] initWithHost:hoststring port:[port integerValue]];
 	
@@ -207,8 +211,6 @@ static BOOL gDebugPrint;
 	
 	NSString *updateIntervalString = [settings objectForKey:@"couchDBUpdateInterval"];
 	
-	// All OK. Save settings and ref to couchdb server.
-	[self saveSettings:settings];
 	couch = tmpCouch;
 	[couch createDatabase:couchDBDBName];
 	db = [[couch database:couchDBDBName] retain];
@@ -279,6 +281,7 @@ static BOOL gDebugPrint;
 		];
 	}
 	
+
 	if (DEBUGALOT)
 		NSLog(@"Twitter string with %d chars:\n%@", [s length], s);
 

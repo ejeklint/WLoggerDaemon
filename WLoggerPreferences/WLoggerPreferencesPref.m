@@ -25,7 +25,6 @@
 }
 
 
-
 - (void) didSelect {
 	if (!proxy || !settings) {
 		// No connection to daemon, inform user
@@ -37,6 +36,8 @@
 		[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
 	}
 	[spinner setDisplayedWhenStopped:NO];
+	
+//	[debugLogging setEnabled:[[settings objectForKey:"@useDebugLogging"] boolValue]];
 	
 	NSDictionary *levels = [proxy getLevels];
 	if (levels) {
@@ -139,19 +140,9 @@
 - (void) willUnselect {
 	// Save settings before pane closes
 	[proxy saveSettings:settings];
-	
-	SecKeychainRef sysChain;
-	OSStatus secRes = SecKeychainOpen("/Library/Keychains/System.keychain", &sysChain);
-	if (secRes)
-	{
-		printf("Couldn't get system keychain: %d\n",secRes);
-		return;
-	}
-	
-	
 }
 
-
+/*
 - (NSString *) twitterPassword {
 	return @"dummy";
 }
@@ -191,6 +182,6 @@
 		[keychainItem setPassword:password];
 	}
 }
-
+*/
 
 @end
