@@ -65,12 +65,6 @@
 		089C166AFE841209C02AAC07 /* WLoggerPreferences */ = {
 			isa = PBXGroup;
 			children = (
-				4BA4463410C13C6A00EC6D75 /* EMKeychainItem.m */,
-				4BC197DD10B582A900DE8CDA /* EMKeychainItem.h */,
-				4BC197DF10B582A900DE8CDA /* EMKeychainProxy.h */,
-				4BC197E010B582A900DE8CDA /* EMKeychainProxy.m */,
-				4BC197E110B582A900DE8CDA /* KeyChainHandler.h */,
-				4BC197E210B582A900DE8CDA /* KeyChainHandler.m */,
 				08FB77AFFE84173DC02AAC07 /* Classes */,
 				32DBCFA10370C40200C91783 /* Other Sources */,
 				089C167CFE841241C02AAC07 /* Resources */,
@@ -104,6 +98,12 @@
 		08FB77AFFE84173DC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4BA4463410C13C6A00EC6D75 /* EMKeychainItem.m */,
+				4BC197DD10B582A900DE8CDA /* EMKeychainItem.h */,
+				4BC197DF10B582A900DE8CDA /* EMKeychainProxy.h */,
+				4BC197E010B582A900DE8CDA /* EMKeychainProxy.m */,
+				4BC197E110B582A900DE8CDA /* KeyChainHandler.h */,
+				4BC197E210B582A900DE8CDA /* KeyChainHandler.m */,
 				4BC1977510B5534500DE8CDA /* RemoteProtocol.h */,
 				F506C03C013D9D7901CA16C8 /* WLoggerPreferencesPref.h */,
 				F506C03D013D9D7901CA16C8 /* WLoggerPreferencesPref.m */,
