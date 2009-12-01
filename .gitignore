@@ -1,11 +1,19 @@
 # xcode noise
 *.mode1v3
+**/*.mode1v3
 *.pbxuser
+**/*.pbxuser
 *.perspective 
+**/*.perspective 
 *.perspectivev3
+**/*.perspectivev3
 *.pyc 
+**/*.pyc 
 *~.nib/
+**/*~.nib/
 build/*
+**/build/*
+
 
 # Textmate - if you build your xcode projects with it
 *.tm_build_errors

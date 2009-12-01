@@ -74,9 +74,6 @@ static BOOL gDebugPrint;
 	[self setupNotificationSubscription];
 	[self setupConnection];
 	
-	// Set up the tick timer
-	myTickTimer = [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(tick:) userInfo:NULL repeats:YES];
-	
 	// Set up self as Growl delegate.
 	//		[GrowlApplicationBridge setGrowlDelegate:self];
 }
@@ -138,6 +135,17 @@ static BOOL gDebugPrint;
 
 
 - (BOOL) setupTwitter: (NSDictionary*) settings {
+	
+	CFBooleanRef temp;
+	temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+	
+	if (!CFBooleanGetValue(temp)) {
+		if (myTickTimer)
+			[myTickTimer release];
+		myTickTimer = NULL;
+		return NO;
+	}
+	
 	if (!twitterEngine)
 		twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	else
@@ -149,7 +157,7 @@ static BOOL gDebugPrint;
 		NSLog(@"Got keychain %@", keychainItem);
 		
 		NSString *test = [NSString stringWithFormat:@"Twitteruser %@ pwd: %@", username, [keychainItem password]];
-		NSLog(test);
+		NSLog(@"%@", test);
 		
 		[twitterEngine setUsername:username password:[keychainItem password]];
 		NSString *s = [NSString stringWithFormat:@"WLoggerDaemon started %@ and will nag the twitterSphere", [NSDate date]];
@@ -159,6 +167,12 @@ static BOOL gDebugPrint;
 		return NO;
 	}
 
+	// Twitter timer
+	NSTimeInterval since2001 = [[NSDate date] timeIntervalSinceReferenceDate];
+	NSDate *nextHour = [NSDate dateWithTimeIntervalSinceReferenceDate: (int)(since2001 / 3600) * 3600 + 3600]; 
+	
+	myTickTimer = [[NSTimer alloc] initWithFireDate:nextHour interval:3600 target:self selector:@selector(updateTwitter:) userInfo:NULL repeats:YES];
+	
 	[self saveSettings: settings];
 	return YES;
 }
@@ -206,7 +220,9 @@ static BOOL gDebugPrint;
 //
 // Update twitter with current readings
 //
-- (void) updateTwitter {
+- (void) updateTwitter: (NSTimer*) timer {
+	(void) timer;
+	
 	NSMutableString *s = [NSMutableString stringWithCapacity:140];
 	NSString *key = [NSString stringWithFormat:@"%@%d", KEY_TEMP_AND_HUM_READING_SENSOR_, 1];
 	NSDictionary *tempOut = [weatherReport objectForKey:key];
@@ -269,21 +285,6 @@ static BOOL gDebugPrint;
 	[twitterEngine sendUpdate:s];
 }
 
-
-- (void) tick:(NSTimer*) timer {	
-	NSDate *now = [NSDate date];
-	unsigned unitFlags = NSMinuteCalendarUnit | NSSecondCalendarUnit | NSHourCalendarUnit;
-	NSDateComponents *dc = [[NSCalendar currentCalendar] components:unitFlags fromDate: now];
-
-	CFBooleanRef temp;
-	temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
-
-	// Tweet update every 60 minutes @ 00 seconds
-	if ([dc second] == 0 && [dc minute] == 0 && CFBooleanGetValue(temp)) {
-		[self updateTwitter];
-	}
-
-}
 
 
 - (void) dealloc {

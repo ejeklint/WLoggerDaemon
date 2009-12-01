@@ -1,481 +1,0 @@
-TWLoggerPreferences
-v7
-r0
-t280515081.302397
-cCheck dependencies
-cProcessInfoPlistFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Info.plist Info.plist
-cCopyStringsFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/InfoPlist.strings English.lproj/InfoPlist.strings
-cCopyTiffFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/WLoggerPreferencesPref.tiff WLoggerPreferencesPref.tiff
-cCompileXIB /Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib
-cProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch.gch WLoggerPreferences_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-cLd /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences normal x86_64
-cTouch /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane
-
-N/Developer/SDKs/MacOSX10.5.sdk
-c000000004AB44D2500000000000000EE
-t1253330213
-s238
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h
-c000000004864BB88000000000000170F
-t1214561160
-s5903
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Carbon.framework/Headers/Carbon.h
-c000000004864BE3E00000000000005D7
-t1214561854
-s1495
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
-c0000000040C4AA6800000000000001E5
-t1086630504
-s485
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CoreFoundation.h
-c00000000486499690000000000000942
-t1214552425
-s2370
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
-c000000004864A1C900000000000012EE
-t1214554569
-s4846
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/PreferencePanes.framework/Headers/PreferencePanes.h
-c000000004864C1730000000000000098
-t1214562675
-s152
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h
-c00000000490261C600000000000009CB
-t1224892870
-s2507
-
-N/Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/Security.framework/Security
-c000000004A0CC11F0000000000066764
-t1242349855
-s419684
-
-N/Developer/SDKs/MacOSX10.6.sdk
-c000000004ABBF0FD00000000000000EE
-t1253830909
-s238
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/AppKit.framework/Headers/AppKit.h
-c000000004A67D2A800000000000017ED
-t1248318120
-s6125
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Carbon.framework/Headers/Carbon.h
-c000000004A77A8FC00000000000005FE
-t1249356028
-s1534
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Cocoa.framework/Headers/Cocoa.h
-c0000000040C4AA6800000000000001E5
-t1086630504
-s485
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/CoreFoundation.framework/Headers/CoreFoundation.h
-c000000004AB994890000000000000AF4
-t1253676169
-s2804
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/Foundation.h
-c000000004AB9AA2700000000000013E6
-t1253681703
-s5094
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/PreferencePanes.framework/Headers/PreferencePanes.h
-c000000004A49A2AC0000000000000098
-t1246339756
-s152
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Security.framework/Headers/Security.h
-c000000004A4D51FB00000000000009CB
-t1246581243
-s2507
-
-N/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Security.framework/Security
-c000000004ABBF0EF000000000006603C
-t1253830895
-s417852
-
-N/System/Library/Frameworks/Cocoa.framework/Cocoa
-c000000004A1F2D63000000000000A5E0
-t1243557219
-s42464
-
-N/System/Library/Frameworks/PreferencePanes.framework/PreferencePanes
-c000000004AD86E9200000000000B8DA0
-t1255698066
-s757152
-
-N/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.h
-c000000004AF4553600000000000009C7
-t1257526582
-s2503
-i<Cocoa/Cocoa.h>
-i<Carbon/Carbon.h>
-i<Security/Security.h>
-
-N/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m
-c000000004AF455360000000000001B32
-t1257526582
-s6962
-i"EMKeychainItem.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.h
-c000000004AF455360000000000000970
-t1257526582
-s2416
-i<Cocoa/Cocoa.h>
-i<Carbon/Carbon.h>
-i<Security/Security.h>
-i"EMKeychainItem.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m
-c000000004AF455360000000000001CE2
-t1257526582
-s7394
-i"EMKeychainProxy.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/English.lproj/InfoPlist.strings
-c000000004B01491D00000000000000E4
-t1258375453
-s228
-
-N/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib
-c000000004B06B4CF0000000000019CB3
-t1258730703
-s105651
-
-N/Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.h
-c000000004AF4553600000000000001AD
-t1257526582
-s429
-i<Cocoa/Cocoa.h>
-i"EMKeychainProxy.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m
-c000000004AF455360000000000000276
-t1257526582
-s630
-i"KeyChainHandler.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/RemoteProtocol.h
-c000000004B052A460000000000000181
-t1258629702
-s385
-i<Cocoa/Cocoa.h>
-
-N/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.h
-c000000004B054E280000000000000203
-t1258638888
-s515
-i<Cocoa/Cocoa.h>
-i<PreferencePanes/PreferencePanes.h>
-i<CoreFoundation/CoreFoundation.h>
-
-N/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m
-c000000004B081A8800000000000009A1
-t1258822280
-s2465
-i"WLoggerPreferencesPref.h"
-i"RemoteProtocol.h"
-i"KeyChainHandler.h"
-
-N/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.tiff
-c000000004B01491D000000000000075E
-t1258375453
-s1886
-
-N/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferences_Prefix.pch
-c000000004B01491D00000000000000D0
-t1258375453
-s208
-i<Foundation/Foundation.h>
-i<AppKit/AppKit.h>
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane
-t1258822281
-s102
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Info.plist
-t1258726920
-s1032
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences
-t1258822281
-s40624
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/InfoPlist.strings
-t1258726921
-s228
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/WLoggerPreferencesPref.nib
-t1258730724
-s24235
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/WLoggerPreferencesPref.tiff
-t1258726921
-s1886
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/EMKeychainItem.o
-t2
-s0
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/EMKeychainProxy.o
-t2
-s0
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/KeyChainHandler.o
-t2
-s0
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/WLoggerPreferences.LinkFileList
-c00000000000000000000000000000000
-t2
-s0
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/WLoggerPreferencesPref.o
-t2
-s0
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o
-t1258638133
-s35984
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o
-t1258638134
-s25696
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o
-t1258638134
-s9264
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferences.LinkFileList
-c000000004B054B35000000000000025A
-t1258638133
-s602
-
-N/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o
-t1258822281
-s28600
-
-N/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-blhwxrgtvponwwftlyzmndnskdjn/WLoggerPreferences_Prefix.pch.pth
-t2
-s0
-
-N/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-brvrbzimrecvyyaztdjbysculddp/WLoggerPreferences_Prefix.pch.pth
-t2
-s0
-
-N/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch.gch
-t1258383123
-s53519408
-
-N/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-dbxybpftkbqnmceqyspcynrnvgvu/WLoggerPreferences_Prefix.pch.pth
-t2
-s0
-
-N/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-gddxxoriomrmjqaccbtfehlwjetg/WLoggerPreferences_Prefix.pch.gch
-t2
-s0
-
-NInfo.plist
-c000000004B01491D000000000000043D
-t1258375453
-s1085
-
-CCheck dependencies
-r0
-lSLF07#2@18"Check dependencies280515080#280515080#0(0"0(0#1#0"4300885448#0"0#
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/EMKeychainItem.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/EMKeychainProxy.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/KeyChainHandler.o /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/i386/WLoggerPreferencesPref.o /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s280330933.438247
-e280330933.946705
-r1
-xCompileC
-xbuild/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o
-x/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m: In function '-[EMInternetKeychainItem setProtocol:]':
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m:246: warning: cast to pointer from integer of different size
-lSLF07#2@71"Compile /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m280330933#280330933#0(244"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m: In function '-[EMInternetKeychainItem setProtocol:]':/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m:246: warning: cast to pointer from integer of different size1(22@46"Cast to pointer from integer of different size280330933#119#125#0(6@63"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m279219382#246#0#246#0#46"cast to pointer from integer of different size0(0#0#63"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m4300885448#1301"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fobjc-gc -mmacosx-version-min=10.6 -gdwarf-2 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/WLoggerPreferences.hmap -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -I/Users/ejeklint/Development/WLoggerPreferences/build/Debug/include -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources/x86_64 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources -include /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch -c /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m -o /Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o0#
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainItem.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainItem.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s280330933.911621
-e280330934.248692
-r1
-xCompileC
-xbuild/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o
-x/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy retainCount]':
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:61: warning: conflicting types for '-(unsigned int)retainCount'
-o/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:38: warning: previous declaration of '-(NSUInteger)retainCount'
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy genericKeychainItemForService:withUsername:]':
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:106: warning: 'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy internetKeychainItemForServer:withUsername:path:port:protocol:]':
-o/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:151: warning: 'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)
-lSLF07#2@72"Compile /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m280330933#280330934#0(1181"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy retainCount]':/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:61: warning: conflicting types for '-(unsigned int)retainCount'/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h:38: warning: previous declaration of '-(NSUInteger)retainCount'/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy genericKeychainItemForService:withUsername:]':/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:106: warning: 'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m: In function '-[EMKeychainProxy internetKeychainItemForServer:withUsername:path:port:protocol:]':/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m:151: warning: 'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)4(22@50"Conflicting types for '-(unsigned int)retainCount'280330934#112#129#0(6@64"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m279219382#61#0#61#0#25"conflicting types for '*'0(22@50"Previous declaration of '-(NSUInteger)retainCount'280330934#241#161#0(6@96"/Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSObject.h275374505#38#0#38#0#0"0(22@156"'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)280330934#546#236#0(6@64"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m279219382#106#0#106#0#33"'*' is deprecated (declared at *)0(22@156"'stringWithCString:length:' is deprecated (declared at /Developer/SDKs/MacOSX10.6.sdk/System/Library/Frameworks/Foundation.framework/Headers/NSString.h:385)280330934#945#236#0(6@64"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m279219382#151#0#151#0#33"'*' is deprecated (declared at *)0(0#0#64"/Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m4300885448#1303"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fobjc-gc -mmacosx-version-min=10.6 -gdwarf-2 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/WLoggerPreferences.hmap -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -I/Users/ejeklint/Development/WLoggerPreferences/build/Debug/include -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources/x86_64 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources -include /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch -c /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m -o /Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o0#
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/EMKeychainProxy.o /Users/ejeklint/Development/WLoggerPreferences/EMKeychainProxy.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s280330933.946808
-e280330934.247820
-r1
-xCompileC
-xbuild/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o
-x/Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@72"Compile /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m280330933#280330934#0(0"0(0#0#64"/Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m4300885448#1303"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fobjc-gc -mmacosx-version-min=10.6 -gdwarf-2 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/WLoggerPreferences.hmap -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -I/Users/ejeklint/Development/WLoggerPreferences/build/Debug/include -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources/x86_64 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources -include /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch -c /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m -o /Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o0#
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/KeyChainHandler.o /Users/ejeklint/Development/WLoggerPreferences/KeyChainHandler.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s280515080.542359
-e280515081.260085
-r1
-xCompileC
-xbuild/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o
-x/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref initWithBundle:]':
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: 'NSDistantObject' may not respond to '-getSettings'
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: (Messages without a matching method signature
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: will be assumed to return 'id' and accept
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: '...' as arguments.)
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref debugClicked:]':
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:33: warning: 'NSDistantObject' may not respond to '-setDebug:'
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref doValidate:]':
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:37: warning: 'NSDistantObject' may not respond to '-setupCouchDB:'
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref didUnselect]':
-o/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:53: warning: 'NSDistantObject' may not respond to '-saveSettings:'
-lSLF07#2@79"Compile /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#280515081#0(1424"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref initWithBundle:]':/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: 'NSDistantObject' may not respond to '-getSettings'/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: (Messages without a matching method signature/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: will be assumed to return 'id' and accept/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:21: warning: '...' as arguments.)/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref debugClicked:]':/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:33: warning: 'NSDistantObject' may not respond to '-setDebug:'/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref doValidate:]':/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:37: warning: 'NSDistantObject' may not respond to '-setupCouchDB:'/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m: In function '-[WLoggerPreferencesPref didUnselect]':/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m:53: warning: 'NSDistantObject' may not respond to '-saveSettings:'5(22@51"'NSDistantObject' may not respond to '-getSettings'280515081#130#137#0(6@71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#21#0#21#0#26"'*' may not respond to '*'0(13@108"(Messages without a matching method signature will be assumed to return 'id' and accept '...' as arguments.)280515081#267#131#0(6@71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#21#0#21#0#0"0(22@49"'NSDistantObject' may not respond to '-setDebug:'280515081#759#135#0(6@71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#33#0#33#0#26"'*' may not respond to '*'0(22@53"'NSDistantObject' may not respond to '-setupCouchDB:'280515081#1020#139#0(6@71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#37#0#37#0#26"'*' may not respond to '*'0(22@53"'NSDistantObject' may not respond to '-saveSettings:'280515081#1285#139#0(6@71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m280515080#53#0#53#0#26"'*' may not respond to '*'0(0#0#71"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m4300885448#1317"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fobjc-gc -mmacosx-version-min=10.6 -gdwarf-2 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/WLoggerPreferences.hmap -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -I/Users/ejeklint/Development/WLoggerPreferences/build/Debug/include -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources/x86_64 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources -include /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch -c /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m -o /Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o0#
-
-CCompileC build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferencesPref.o /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CCompileXIB /Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib
-s280423523.625794
-e280423524.193575
-r1
-xCompileXIB
-x/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib
-o/* com.apple.ibtool.document.notices */
-o/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:125: note: This view is clipping its content.
-o/* com.apple.ibtool.document.warnings */
-o/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:132: warning: The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6.
-o/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:214: warning: The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6.
-o/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:-2: warning: The 'useComputersClock' outlet of 'File's Owner' is connected to 'Check Box (User computer's clock)' but 'useComputersClock' is no longer defined on WLoggerPreferencesPref.
-lSLF07#2@51"CompileXIB English.lproj/WLoggerPreferencesPref.xib280423523#280423524#0(873"/* com.apple.ibtool.document.notices *//Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:125: note: This view is clipping its content./* com.apple.ibtool.document.warnings *//Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:132: warning: The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6./Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:214: warning: The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6./Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib:-2: warning: The 'useComputersClock' outlet of 'File's Owner' is connected to 'Check Box (User computer's clock)' but 'useComputersClock' is no longer defined on WLoggerPreferencesPref.4(13@34"This view is clipping its content.280423524#18446744073709551615#0#0(6@87"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib280423503#125#0#125#0#0"0(22@89"The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6.280423524#18446744073709551615#0#0(6@87"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib280423503#132#0#132#0#0"0(22@89"The property "Uses Single Line Mode" is not supported on Mac OS X versions prior to 10.6.280423524#18446744073709551615#0#0(6@87"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib280423503#214#0#214#0#0"0(22@172"The 'useComputersClock' outlet of 'File's Owner' is connected to 'Check Box (User computer's clock)' but 'useComputersClock' is no longer defined on WLoggerPreferencesPref.280423524#18446744073709551615#0#0(6@87"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib280423503#18446744073709551614#0#18446744073709551614#0#0"0(0#0#87"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib4300885448#395"    cd /Users/ejeklint/Development/WLoggerPreferences    /Developer/usr/bin/ibtool --errors --warnings --notices --output-format human-readable-text --compile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/WLoggerPreferencesPref.nib /Users/ejeklint/Development/WLoggerPreferences/English.lproj/WLoggerPreferencesPref.xib0#
-
-CCopyStringsFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/InfoPlist.strings English.lproj/InfoPlist.strings
-s280419720.962222
-e280419721.049372
-r1
-xCopyStringsFile
-x/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj/InfoPlist.strings
-xEnglish.lproj/InfoPlist.strings
-lSLF07#2@36"Copy English.lproj/InfoPlist.strings280419720#280419721#0(0"0(0#0#78"/Users/ejeklint/Development/WLoggerPreferences/English.lproj/InfoPlist.strings4300885448#398"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv ICONV /usr/bin/iconv    /Developer/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copystrings --validate --inputencoding utf-16 --outputencoding UTF-16 English.lproj/InfoPlist.strings --outdir /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/English.lproj0#
-
-CCopyTiffFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/WLoggerPreferencesPref.tiff WLoggerPreferencesPref.tiff
-s280419720.963930
-e280419721.024217
-r1
-xCopyTiffFile
-x/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources/WLoggerPreferencesPref.tiff
-xWLoggerPreferencesPref.tiff
-lSLF07#2@32"Copy WLoggerPreferencesPref.tiff280419720#280419721#0(0"0(0#0#74"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferencesPref.tiff4300885448#287"    cd /Users/ejeklint/Development/WLoggerPreferences    /Developer/Library/Xcode/Plug-ins/CoreBuildTasks.xcplugin/Contents/Resources/copytiff WLoggerPreferencesPref.tiff --outdir /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Resources0#
-
-CLd /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences normal i386
-r0
-
-CLd /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences normal x86_64
-s280515081.260173
-e280515081.299669
-r1
-xLd
-x/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences
-xnormal
-xx86_64
-lSLF07#2@125"Link /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences280515081#280515081#0(0"0(0#0#0"4300885448#697"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv MACOSX_DEPLOYMENT_TARGET 10.6    /Developer/usr/bin/gcc-4.2 -arch x86_64 -bundle -isysroot /Developer/SDKs/MacOSX10.6.sdk -L/Users/ejeklint/Development/WLoggerPreferences/build/Debug -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -filelist /Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/Objects-normal/x86_64/WLoggerPreferences.LinkFileList -mmacosx-version-min=10.6 -framework Cocoa -framework PreferencePanes -framework Security -o /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/MacOS/WLoggerPreferences0#
-
-CProcessInfoPlistFile /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Info.plist Info.plist
-s280419720.951264
-e280419720.962139
-r1
-xProcessInfoPlistFile
-x/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Info.plist
-xInfo.plist
-lSLF07#2@18"Process Info.plist280419720#280419720#0(0"0(0#0#57"/Users/ejeklint/Development/WLoggerPreferences/Info.plist22518436230135920#242"    cd /Users/ejeklint/Development/WLoggerPreferences    builtin-infoPlistUtility Info.plist -expandbuildsettings -platform macosx -o /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane/Contents/Info.plist0#
-
-CProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-blhwxrgtvponwwftlyzmndnskdjn/WLoggerPreferences_Prefix.pch.pth WLoggerPreferences_Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-brvrbzimrecvyyaztdjbysculddp/WLoggerPreferences_Prefix.pch.pth WLoggerPreferences_Prefix.pch normal i386 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch.gch WLoggerPreferences_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
-s280075920.295561
-e280075923.364278
-r1
-xProcessPCH
-x/var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch.gch
-xWLoggerPreferences_Prefix.pch
-xnormal
-xx86_64
-xobjective-c
-xcom.apple.compilers.gcc.4_2
-lSLF07#2@40"Precompile WLoggerPreferences_Prefix.pch280075920#280075923#0(0"0(0#0#76"/Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferences_Prefix.pch4300885448#1168"    cd /Users/ejeklint/Development/WLoggerPreferences    setenv LANG en_US.US-ASCII    /Developer/usr/bin/gcc-4.2 -x objective-c-header -arch x86_64 -fmessage-length=0 -pipe -std=gnu99 -Wno-trigraphs -fpascal-strings -fasm-blocks -O0 -Wreturn-type -Wunused-variable -isysroot /Developer/SDKs/MacOSX10.6.sdk -mfix-and-continue -fobjc-gc -mmacosx-version-min=10.6 -gdwarf-2 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/WLoggerPreferences.hmap -F/Users/ejeklint/Development/WLoggerPreferences/build/Debug -I/Users/ejeklint/Development/WLoggerPreferences/build/Debug/include -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources/x86_64 -I/Users/ejeklint/Development/WLoggerPreferences/build/WLoggerPreferences.build/Debug/WLoggerPreferences.build/DerivedSources -c /Users/ejeklint/Development/WLoggerPreferences/WLoggerPreferences_Prefix.pch -o /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-bupnijombcjkzocalvcfveglxcjt/WLoggerPreferences_Prefix.pch.gch0#
-
-CProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-dbxybpftkbqnmceqyspcynrnvgvu/WLoggerPreferences_Prefix.pch.pth WLoggerPreferences_Prefix.pch normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
-r0
-
-CProcessPCH /var/folders/3h/3hmrFSa-G+GW2891Z9o4SU+++TI/-Caches-/com.apple.Xcode.501/SharedPrecompiledHeaders/WLoggerPreferences_Prefix-gddxxoriomrmjqaccbtfehlwjetg/WLoggerPreferences_Prefix.pch.gch WLoggerPreferences_Prefix.pch normal x86_64 objective-c com.apple.compilers.gcc.4_2
-r0
-
-CTouch /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane
-s280515081.299760
-e280515081.302362
-r1
-xTouch
-x/Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane
-lSLF07#2@92"Touch /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane280515081#280515081#0(0"0(0#0#0"4300885448#163"    cd /Users/ejeklint/Development/WLoggerPreferences    /usr/bin/touch -c /Users/ejeklint/Development/WLoggerPreferences/build/Debug/WLoggerPreferences.prefPane0#
-
