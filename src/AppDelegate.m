@@ -282,6 +282,7 @@ static BOOL gDebugPrint;
 	if ([dc second] == 0 && [dc minute] == 0 && CFBooleanGetValue(temp)) {
 		[self updateTwitter];
 	}
+
 }
 
 
@@ -347,7 +348,6 @@ static BOOL gDebugPrint;
 	NSDictionary *userInfo = [notification userInfo];
 	
 	[levels addEntriesFromDictionary:userInfo];
-	NSLog(@"Levels: %@", levels);
 }
 
 
