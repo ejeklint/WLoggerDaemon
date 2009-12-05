@@ -3,15 +3,15 @@ _PLEASE NOTE: this is preliminary, changes will surely be made. If you have info
 
 [This thread](http://aguilmard.com/phpBB3/viewtopic.php?f=2&t=508&st=0&sk=t&sd=a&hilit=wmr100) on [a forum for GraphWeather](http://aguilmard.com/) was very helpful. I managed to read it all in spite of my lousy french. Thank's guys!
 
-And big thanks to Kustaa Nyholm and George Warner for your contributions!
+And big thanks to Kustaa Nyholm, George Warner and Fernando Urbina for your help!
 
-Both WMR100N and WMRS200 are low speed USB 1.1 Human Interface Devices, but with a completely closed, vendor-specific application level protocol. I've tried to contact Oregon Scientific about the possibility to get access to the protocol but they haven't even answered my letters.
+There are a number of weather stations from Oregon Scientific that uses this protocol. I know that WMR100N, WMRS200, RMS300 and RMS600 share the same protocol and work with my software. All of them are low speed USB 1.1 Human Interface Devices, but with a completely closed, vendor-specific application level protocol. I've tried to contact Oregon Scientific about the possibility to get access to the protocol but they haven't even answered my letters.
 
-The nice thing about them being a HID is that it makes it quite easy to communicate with it, and using the HID Manager that came with Mac OS X 10.5 enabled me to get a very simple and robust way of speaking with them. Setting up the USB handling and register callbacks for data and device plugin/remove is not even 10 lines of code, excluding error control. But then to actually understand the data from the station requires much more of coding. 
+The nice thing about them being a HID is that it makes it quite easy to communicate with it, and using the HID Manager that came with Mac OS X 10.5 enabled me to get a very simple and robust way of speaking with them. At first I wasn't using the proper callback function so occasionally I got data losses. But with excellent help from Fernano Urbina and George Warner at Apple I understood what was going on, and with George's example code I finally got it stable. Setting up the USB handling and register callbacks for data and device plugin/remove is not even 10 lines of code, excluding error control. But then to actually understand the data from the station requires much more of coding. 
 
 ###Initialization
 <br>
-To kick-start the station the following initialization string (hex code) must be sent once:
+To kick-start the station the following initialization string (hex code) must be sent once, at least for WMR100N:
 
     20 00 08 01 00 00 00 00
 
@@ -19,7 +19,7 @@ It is only needed after a reset (or power failure) of the station.
 
 ###Report layout
 <br>
-The station sends _USB reports_ with a size of 1 or 8 bytes. The one-byte reports are to my knowledge of no interest for decoding weather data. Of the 8-byte reports, only a few bytes are of interest, and to put together a complete weather measurement, data must be extracted from several 8 byte long USB reports.
+The station sends 8 bytes long _USB reports_. Of the 8-byte reports, only a few bytes are of interest, and to put together a complete weather measurement, data must be extracted from several 8 byte long USB reports.
 
 A typical 8-byte report looks like this
 
@@ -27,18 +27,7 @@ A typical 8-byte report looks like this
 
 The first byte tell us how many of the directly following bytes are part of a measurement. In the example above there are 2 bytes, so `00 47` is valid parts of a weather measurement. Keep on assembling USB reports like this and you will create a stream of bytes containing weather measurements. Most USB reports contain only one or two relevant bytes, but I have recently found occasional, rare reports with up to 7 bytes of real data, so make sure that you don't assume only one or two bytes.
 
-All measurements are separated by `0xff` and once a minute there are two consecutive `0xff`, but as `0xff` also can appear as valid data in the measurements, you can't simply rely on looking for `0xff` to detect a complete measurements. This approach to discover separators works well:
-
-    if (report has 1 byte only and it is 0xff)
-        It's a short separator;
-    else if (report has two bytes and both is 0xff)
-        It's a long separator;
-    else if (previous report was a short separator && report has two or more bytes and first is 0xff)
-        First byte is second 0xff of long separator, the rest is real data;
-    else
-        All bytes are real data;
-
-You could also be very fancy and use expected lengths of a measurement to know when a measurement is complete, but it's not that easy considering that rain measurements have variable lengths.
+All measurements are separated by `0xffff`. Earlier, I thought that there was a singe `0xff` between measurements, but that was wrong. I was lead to believe that by my USB handling bug that caused some data to go lost now and then.
 
 Now, the **type** of a measurement (like rain or wind) is determined in the second byte of the measurement. And the last two bytes of a measurement is a checksum, it should be the same as the sum of all preceding bytes in the measurement. The checksum comes low byte first, then high byte.
 
@@ -46,7 +35,7 @@ Now, the **type** of a measurement (like rain or wind) is determined in the seco
 
 If you have this byte sequence filtered out from the USB reports
 
-    05 ca 00 ff 00 47 08 4f 00 ff 00 42 ...
+    ... 05 ca 00 ff ff 00 47 08 4f 00 ff ff 00 42 ...
 
 then you can find the 5 byte long measurement `00 47 08 4f 00` in it, where the second byte (`47`) indicates an UV Index measurement, third byte is the actual UV index measurement of 8 (wear sunscreen because this is very high!), and fourth and fifth byte is the checksum `004f` in reverse order. Add the first three and check for yourself. And in the first byte, the high [nibble](http://en.wikipedia.org/wiki/Nibble) contains information about the battery level in the UV device.
 
@@ -166,6 +155,8 @@ Barometer reading is reported both as absolute and relative. Reading also includ
 
 Forecast indicator is a number were 0 is Partly cloudy, 1 is Rainy, 2 is Cloudy, 3 is Sunny and 4 is Snowy. It's available both for absolute and relative pressure.
 
+_To do: check if the forecast for relative pressure is correct_
+
 <table>
 	<tr><th>Length</th><th>8</th><th>Example: <code>00 46 ed 03 ed 33 56 02</code> </th></tr>
 	<tr><th>Byte</th><th>Data</th><th>Comment</th></tr>
@@ -174,14 +165,14 @@ Forecast indicator is a number were 0 is Partly cloudy, 1 is Rainy, 2 is Cloudy,
 	<tr><td>2-3</td><td> <code>ed 03</code> </td><td>Absolute pressure, low nibble of byte 3 * 256 + byte 2</td></tr>
 	<tr><td>3</td><td> <code>03</code> </td><td>High nibble is forecast indicator for absolute pressure</td></tr>
 	<tr><td>4-5</td><td> <code>ed 03</code> </td><td>Relative pressure, low nibble of byte 5 * 256 + byte 4</td></tr>
-	<tr><td>5</td><td> <code>03</code> </td><td>High nibble is forecast indicator for relative pressure</td></tr>
+	<tr><td>5</td><td> <code>03</code> </td><td>High nibble is forecast indicator for relative pressure?</td></tr>
 	<tr><td>6-7</td><td> <code>56 02</code> </td><td>Checksum: 0x256</td></tr>
 </table>
 
 
 ####Rain
 
-When it's raining, rain data reading will be 17 bytes long. The implementation in the stations are either flaky or just odd, because when it hasn't been raining for a while the reading will shrink to 15, 13 or 11 bytes. When length is 15, _rain rate_ is not reported and other reading appear two bytes earlier in the stream. When length is 13, _rain rate_ and _last hour rain_ are not reported. Anyhow, you can choose to just looking for 17 byte readings it will work as long as you remember the last proper reading.
+Rain is reported in inches, rain rate in inches/hour.
 
 <table>
 	<tr><th>Length</th><th>17</th><th>Example: <code>00 41 ff 02 0c 00 00 00 25 00 00 0c 01 01 06 87 01</code> </th></tr>
@@ -200,11 +191,10 @@ When it's raining, rain data reading will be 17 bytes long. The implementation i
 	<tr><td>15-16</td><td> <code>87 01</code> </td><td>Checksum: 0x187</td></tr>
 </table>
 
-If you do use rain reports shorter than 17 bytes, remember to read remaining bytes from adjusted positions in the stream.
 
 ####UV Radiation
 
-UV Index is reported from the UVN800 every 73rd second. It's an integer from 0 and upwards.
+UV Index is reported from the UVN800 sensor. It's an dimensionless value (whole number) from 0 and upwards.
 
 <table>
 	<tr><th>Length</th><th>5</th><th>Example: <code>00 47 05 4c 00</code> </th></tr>
