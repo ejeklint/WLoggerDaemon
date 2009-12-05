@@ -43,8 +43,6 @@ static BOOL gDebugPrint;
 
 // delayed setup to other processes get to start before WLoggerDaemon. CouchDB for example...
 - (void) setup: (id) anObject {
-	NSLog(@"Finalizing setup of WLoggerDaemon");
-	
 	(void) anObject;
 
 	ra = [[ReadingAssembler alloc] init];

@@ -4,28 +4,79 @@
 //
 //  Created by Per Ejeklint on 2009-05-13.
 //  Copyright 2009 Heimore Group AB. All rights reserved.
+//  
+//  Code for proper USB report handling by George Warner, Apple
 //
 
 #import "WMR100NDeviceController.h"
 #import "AppDelegate.h"
 #import "DataKeys.h"
 
+
+
+
+static Boolean IOHIDDevice_GetLongProperty(IOHIDDeviceRef inIOHIDDeviceRef, CFStringRef inKey, long *outValue) {
+	Boolean result = FALSE;
+	if ( inIOHIDDeviceRef ) {
+		assert( IOHIDDeviceGetTypeID() == CFGetTypeID(inIOHIDDeviceRef) );
+		
+		CFTypeRef tCFTypeRef = IOHIDDeviceGetProperty(inIOHIDDeviceRef, inKey);
+		if ( tCFTypeRef ) {
+			// if this is a number
+			if ( CFNumberGetTypeID() == CFGetTypeID(tCFTypeRef) ) {
+				// get it's value
+				result = CFNumberGetValue( (CFNumberRef) tCFTypeRef, kCFNumberSInt32Type, outValue );
+			}
+		}
+	}
+	
+	return (result);
+}
+
+
+//
+// Static callbacks from HID Manager
+//
+
+static void Handle_DeviceRemovalCallback(void * inContext, IOReturn inResult, void * inSender, IOHIDDeviceRef inIOHIDDeviceRef)
+{
+	if (inResult != kIOReturnSuccess) {
+		fprintf(stderr, "%s( context: %p, result: %p, sender: %p ).\n", 
+				__PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender);
+		return;
+	}
+	WMR100NDeviceController *self = (WMR100NDeviceController *) inContext;
+	[self closeAndReleaseDevice: inIOHIDDeviceRef];
+}	
+
+
+static void Handle_DeviceMatchingCallback(void *         inContext,             // context from IOHIDManagerRegisterDeviceMatchingCallback
+                                          IOReturn       inResult,              // the result of the matching operation
+                                          void *         inSender,              // the IOHIDManagerRef for the new device
+                                          IOHIDDeviceRef inIOHIDDeviceRef) {    // the new HID device
+	WMR100NDeviceController *controller = (WMR100NDeviceController *) inContext;
+	[controller openAndInitDevice:inResult sender:inSender device:inIOHIDDeviceRef];
+}
+
+
+static void Handle_IOHIDDeviceInputReportCallback(void *          inContext,		// context from IOHIDDeviceRegisterInputReportCallback
+                                                  IOReturn        inResult,         // completion result for the input report operation
+                                                  void *          inSender,         // IOHIDDeviceRef of the device this report is from
+                                                  IOHIDReportType inType,           // the report type
+                                                  uint32_t        inReportID,       // the report ID
+                                                  uint8_t *       inReport,         // pointer to the report data
+                                                  CFIndex         inReportLength)   // the actual size of the input report
+{
+	WMR100NDeviceController *self = (WMR100NDeviceController *) inContext;
+	[self inputReport:inResult sender:inSender type:inType reportID:inReportID report:inReport length:inReportLength];
+} 
+
+
 @implementation WMR100NDeviceController
 
-// Need to hold some state between input reports
-static BOOL shortSeparatorFound;
 
-// While debugging
-#ifdef DEBUG
-int usbReportIndex;
-NSData *previousReports[10];
-#endif
 
-//
-// Our "private" methods and callbacks
-//
-
-- (BOOL) validateChecksum {
+- (BOOL) validateChecksum: (NSData*) reading  {
 	unsigned sum = 0;
 	int i = 0;
 	UInt8 *data = (UInt8*) [reading bytes];
@@ -42,10 +93,8 @@ NSData *previousReports[10];
 }
 
 
-- (void) postReadingAndPrepareForNew {
-	// Check expected length and adjust if needed
-	if ([reading length] < 5) {
-		[reading setLength:0];
+- (void) postReadingAndPrepareForNew: (NSData*) reading {
+	if ([reading length] < 2) {
 		return;
 	}
 
@@ -53,27 +102,7 @@ NSData *previousReports[10];
 	uint8_t *bytes = (uint8_t*) [reading bytes];
 	switch (bytes[1]) {
 		case 0x41: // Rain has varying expected lengths
-			switch ([reading length]) {
-				case 10:
-				case 11:
-					expectedReadingLength = 11;
-					break;
-				case 12:
-				case 13:
-					expectedReadingLength = 13;
-					break;
-				case 14:
-				case 15:
-					expectedReadingLength = 15;
-					break;
-				case 16:
-				case 17:
-					expectedReadingLength = 17;
-					break;
-				default:
-					expectedReadingLength = 17;
-					break;
-			}
+			expectedReadingLength = 17;
 			break;
 		case 0x42: // Temp & humidity
 			expectedReadingLength = 12;
@@ -91,83 +120,38 @@ NSData *previousReports[10];
 			expectedReadingLength = 12;
 			break;
 	}
-	if ([reading length] != expectedReadingLength || [self validateChecksum] == NO) {
+	if ([reading length] != expectedReadingLength || [self validateChecksum:reading] == NO) {
 		if (DEBUGALOT)
 			NSLog(@"Discarding reading with wrong length or wrong checksum: %@", reading);
-
-		// Empty buffer
-		[reading setLength:0];
 		return;
 	}
 	
-		// Toss the completed reading up in the nutritional chain
+	// Toss the completed reading up in the nutritional chain
 	NSData *theData = [NSData dataWithData:reading];
 	NSDictionary *userInfo = [NSDictionary dictionaryWithObject:theData forKey:@"data"];				
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"DataEvent" object:self userInfo:userInfo];
-	// Empty buffer
-	[reading setLength:0];
 }
 
 
-- (void) handleReport:(IOHIDValueRef) inIOHIDValueRef {
-	CFIndex length = IOHIDValueGetLength(inIOHIDValueRef); // Get report length
+-(void) inputReport:(IOReturn) inResult sender:(void *) inSender type:(IOHIDReportType) inType reportID:(uint32_t) inReportID
+				   report:(uint8_t *) inReport length:(CFIndex) inReportLength {
+	unsigned int noOfValidBytes = inReport[0]; // Get number of bytes that matters in this report
 	
-	const uint8_t *reportbuf = IOHIDValueGetBytePtr(inIOHIDValueRef); // Pointer to report	
-//	NSLog(@"Report received, length %d: %@", length, [[NSData dataWithBytes:reportbuf length:length] description]);
-	if (length != WMR100N_REPORT_SIZE)
-		return; // We only care about 8 byte reports
+	[buffer appendBytes:&inReport[1] length:noOfValidBytes];
 	
-	
-	unsigned int actualReportLength = reportbuf[0]; // Get number of bytes that matters in this report
-
-	if (actualReportLength == 1 && reportbuf[1] == 0xff) {
-		// Short frame separator (ff)
-		shortSeparatorFound = YES;
-		[self postReadingAndPrepareForNew];
-	} else if (actualReportLength == 2 && reportbuf[1] == 0xff && reportbuf[2] == 0xff) {
-		// Long frame separator (ffff)
-		shortSeparatorFound = NO;
-		[self postReadingAndPrepareForNew];
-	} else if (shortSeparatorFound == YES && actualReportLength > 1 && reportbuf[1] == 0xff) {
-		// Another long frame separator, but split in two reports. Keep rest.
-		shortSeparatorFound = NO;
-		[reading appendBytes:&reportbuf[2] length:actualReportLength - 1];	
-	} else {
-		shortSeparatorFound = NO;
-		[reading appendBytes:&reportbuf[1] length:actualReportLength];
-	}	
-}
-
-
-// Callback for input value changes from WMR100N
-static void Handle_IOHIDInputValueCallback(void * inContext, IOReturn inResult, void * inSender, IOHIDValueRef inIOHIDValueRef) {
-	if (inResult != kIOReturnSuccess) {
-		fprintf(stderr, "%s( context: %p, result: %p, sender: %p ).\n", 
-				__PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender);
-		return;
+	// Find 0xffff - all before that is a reading
+	int len = [buffer length];
+	if (len > 1) {
+		for (int i = 0; i < len - 1; i++) {
+			uint8_t *bytes = (uint8_t*) [buffer bytes];
+			if (bytes[i] == 0xff && bytes[i+1] == 0xff) {
+				NSData *new = [NSData dataWithBytes:[buffer bytes] length:i];
+				[self postReadingAndPrepareForNew: new];
+				[buffer setLength:0];
+				break;
+			}
+		}
 	}
-	WMR100NDeviceController* self = (WMR100NDeviceController*) inContext;
-	[self handleReport: inIOHIDValueRef];
-}
-
-
-- (void) openAndSetupDevice: (IOHIDDeviceRef) hidDeviceRef {
-	gHidDeviceRef = hidDeviceRef;
-	IOReturn  ioReturnValue = IOHIDDeviceOpen(hidDeviceRef, kIOHIDOptionsTypeNone);
-	if (ioReturnValue != kIOReturnSuccess) {
-		NSLog(@"Failed to open communication to weather station");
-		return;
-	}
-	
-	// Send trigger string so it will start reporting. Only needed once after power failure, reset or boot of WMR100, but you never know, do you, and it doesn't make any harm to send at each device discovery
-	unsigned char initString[] = { 0x20, 0x00, 0x08, 0x01, 0x00, 0x00, 0x00, 0x00 };
-	ioReturnValue = IOHIDDeviceSetReport(hidDeviceRef, kIOHIDReportTypeOutput, 0, initString, 8);
-	if (ioReturnValue != kIOReturnSuccess) {
-		NSLog(@"Failed to send init string with setReport");
-		return;
-	}
-	
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"DeviceAdded" object:self userInfo:nil];
 }
 
 
@@ -176,91 +160,82 @@ static void Handle_IOHIDInputValueCallback(void * inContext, IOReturn inResult, 
 }
 
 
-//
-// Static callbacks for device plugin and removal
-//
+-(void) openAndInitDevice:(IOReturn) inResult sender:(void *) inSender device:(IOHIDDeviceRef) inIOHIDDeviceRef {
+	gHidDeviceRef= inIOHIDDeviceRef;
+	long reportSize = 0;
+	(void) IOHIDDevice_GetLongProperty(inIOHIDDeviceRef, CFSTR(kIOHIDMaxInputReportSizeKey), &reportSize);
 
-static void Handle_DeviceMatchingCallback(void * inContext, IOReturn inResult, void * inSender, IOHIDDeviceRef inIOHIDDeviceRef)
-{
-	if (inResult != kIOReturnSuccess) {
-		fprintf(stderr, "%s( context: %p, result: %p, sender: %p ).\n", 
-				__PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender);
-		return;
-	}
-	WMR100NDeviceController* self = (WMR100NDeviceController*) inContext;
-	[self openAndSetupDevice: inIOHIDDeviceRef];
-}	
+	if (reportSize) {
+		report = calloc(1, reportSize);
+		if (report) {
+			IOHIDDeviceRegisterInputReportCallback(inIOHIDDeviceRef,						// IOHIDDeviceRef for the HID device
+												   report,									// pointer to the report data (uint8_t's)
+												   reportSize,								// number of bytes in the report (CFIndex)
+												   Handle_IOHIDDeviceInputReportCallback,	// the callback routine
+												   self);									// context passed to callback
 
-static void Handle_DeviceRemovalCallback(void * inContext, IOReturn inResult, void * inSender, IOHIDDeviceRef inIOHIDDeviceRef)
-{
-	if (inResult != kIOReturnSuccess) {
-		fprintf(stderr, "%s( context: %p, result: %p, sender: %p ).\n", 
-				__PRETTY_FUNCTION__, inContext, ( void * ) inResult, inSender);
-		return;
+			uint8_t triggerReport[]     = {0x20, 0x00, 0x08, 0x01, 0x00, 0x00, 0x00, 0x00};
+			CFIndex reportLength = sizeof(triggerReport);
+			
+			// synchronous
+			IOReturn ioReturn = IOHIDDeviceSetReport(inIOHIDDeviceRef,                      // IOHIDDeviceRef for the HID device
+													 kIOHIDReportTypeOutput,                // IOHIDReportType for the report
+													 0,                                     // CFIndex for the report ID
+													 triggerReport,                         // address of report buffer
+													 reportLength);                         // length of the report
+			if (kIOReturnSuccess != ioReturn)
+				NSLog(@"%s, IOHIDDeviceSetReport error: %ld (0x%08lX)", __PRETTY_FUNCTION__, ioReturn, ioReturn);
+		}
 	}
-	WMR100NDeviceController* self = (WMR100NDeviceController*) inContext;
-	[self closeAndReleaseDevice: inIOHIDDeviceRef];
-}	
-
-
-- (IOHIDManagerRef) setupHidManagerAndCallbacks {
-	SInt32 usbVendor = 4062;		// Oregon Scientific
-	SInt32 usbProduct = 51713;		// WMR100 or WMRS200
-	SInt32 usbUsagePage = 0xff00;	// Vendor page is our point of interest
-	
-	NSMutableDictionary *matchDict = [[NSMutableDictionary alloc] init];
-	[matchDict setObject:[NSNumber numberWithInt:usbVendor] forKey:[NSString stringWithUTF8String:kIOHIDVendorIDKey]];
-	[matchDict setObject:[NSNumber numberWithInt:usbProduct] forKey:[NSString stringWithUTF8String:kIOHIDProductIDKey]];
-	[matchDict setObject:[NSNumber numberWithInt:usbUsagePage] forKey:[NSString stringWithUTF8String:kIOHIDPrimaryUsagePageKey]];
-	
-	IOHIDManagerRef aHIDManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
-	if (!aHIDManager) {
-		NSLog(@"Failed creating a HID Manager");
-		return NULL;
-	}
-	
-	IOHIDManagerSetDeviceMatching(aHIDManager, (CFDictionaryRef) matchDict);
-	
-	IOReturn ioRet = IOHIDManagerOpen(aHIDManager, kIOHIDOptionsTypeNone);
-	if (ioRet != kIOReturnSuccess) {
-		CFRelease(aHIDManager);
-		NSLog(@"Failed to open the HID Manager");
-		return NULL;
-	}
-	
-	// Callbacks for device plugin/removal
-	IOHIDManagerRegisterDeviceMatchingCallback(aHIDManager, Handle_DeviceMatchingCallback, self);
-	IOHIDManagerRegisterDeviceRemovalCallback(aHIDManager, Handle_DeviceRemovalCallback, self);
-	
-	// Callback for input value reporting
-	IOHIDManagerRegisterInputValueCallback(aHIDManager, Handle_IOHIDInputValueCallback, self);
-	
-	// Schedule with the run loop
-	IOHIDManagerScheduleWithRunLoop(aHIDManager, CFRunLoopGetCurrent( ), kCFRunLoopDefaultMode);
-	
-	return aHIDManager;
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"DeviceAdded" object:self userInfo:nil];
 }
 
 
+- (void) setupHidManagerAndCallbacks {
+	gHIDManager = IOHIDManagerCreate(kCFAllocatorDefault, kIOHIDOptionsTypeNone);
+	if (gHIDManager) {
+		NSDictionary * matchDict = [NSDictionary dictionaryWithObjectsAndKeys:
+		                               [NSNumber numberWithInt:0x0FDE], @kIOHIDVendorIDKey,
+		                               [NSNumber numberWithInt:0xCA01], @kIOHIDProductIDKey,
+		                               nil];
+		
+		IOHIDManagerSetDeviceMatching(gHIDManager, (CFDictionaryRef) matchDict);
+		
+		// Callbacks for device plugin/removal
+		IOHIDManagerRegisterDeviceMatchingCallback(gHIDManager, Handle_DeviceMatchingCallback, self);
+		IOHIDManagerRegisterDeviceRemovalCallback(gHIDManager, Handle_DeviceRemovalCallback, self);
+		
+		// Schedule with the run loop
+		IOHIDManagerScheduleWithRunLoop(gHIDManager, CFRunLoopGetCurrent( ), kCFRunLoopDefaultMode);
+		
+		IOReturn ioRet = IOHIDManagerOpen(gHIDManager, kIOHIDOptionsTypeNone);
+		if (ioRet != kIOReturnSuccess) {
+			CFRelease(gHIDManager);
+			gHIDManager = NULL;
+			NSLog(@"Failed to open the HID Manager");
+		}
+	}
+}
 
-//
-// Our public methods
-//
 
 - (id)init {
 	if (!(self = [super init]))
 		return nil;
 
-	reading = [[NSMutableData alloc] init];
+	buffer = [[NSMutableData alloc] initWithCapacity:20];
 
-	gHIDManager = [self setupHidManagerAndCallbacks];
+	[self setupHidManagerAndCallbacks];
 	
 	return self;
 }
 
+
 - (void)dealloc {
-	CFRelease(gHIDManager); // Should release our manager
-	[reading release];
+	if (gHIDManager) {
+		CFRelease(gHIDManager); // Should release our manager
+		gHIDManager = NULL;
+	}
+
 	[super dealloc];
 }
 

@@ -107,36 +107,23 @@ static int minuteCycleDone;
 			// Rain report
 			//
 		case 0x41: {
-			// Check how much data that comes, rain reports may have reduced length
-			// First lost data is rainRate, then rain1hour, then rain24hour
-			int rl = 17 - [data length]; // Reduced length
-			
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:4];
 
 			// Comes in inches... * 0.254 makes mm.
-			double totalRain = [self roundedDoubleFromHighByte:rb[9-rl] lowByte:rb[8-rl] conversionFactor:0.254];
+			double totalRain = [self roundedDoubleFromHighByte:rb[9] lowByte:rb[8] conversionFactor:0.254];
 			[userInfo setObject:[NSNumber numberWithDouble:totalRain] forKey:KEY_RAIN_TOTAL];
 			
-			double rainRate = 0;
-			if (rl == 0) {
-				rainRate = [self roundedDoubleFromHighByte:rb[3] lowByte:rb[2] conversionFactor:0.254];				
-				[userInfo setObject:[NSNumber numberWithDouble:rainRate] forKey:KEY_RAIN_RATE];				
-			}
+			double rainRate = [self roundedDoubleFromHighByte:rb[3] lowByte:rb[2] conversionFactor:0.254];				
+			[userInfo setObject:[NSNumber numberWithDouble:rainRate] forKey:KEY_RAIN_RATE];				
 			
-			double rain1hour = 0;
-			if (rl <= 2) {
-				rain1hour = [self roundedDoubleFromHighByte:rb[5-rl] lowByte:rb[4-rl] conversionFactor:0.254];
-				[userInfo setObject:[NSNumber numberWithDouble:rain1hour] forKey:KEY_RAIN_1H];				
-			}
+			double rain1hour = [self roundedDoubleFromHighByte:rb[5] lowByte:rb[4] conversionFactor:0.254];
+			[userInfo setObject:[NSNumber numberWithDouble:rain1hour] forKey:KEY_RAIN_1H];				
 			
-			double rain24hour = 0;
-			if (rl <= 4) {
-				rain24hour = [self roundedDoubleFromHighByte:rb[7-rl] lowByte:rb[6-rl] conversionFactor:0.254];
-				[userInfo setObject:[NSNumber numberWithDouble:rain24hour] forKey:KEY_RAIN_24H];				
-			}
+			double rain24hour = [self roundedDoubleFromHighByte:rb[7] lowByte:rb[6] conversionFactor:0.254];
+			[userInfo setObject:[NSNumber numberWithDouble:rain24hour] forKey:KEY_RAIN_24H];				
 			
 //			NSTimeZone *zone = [NSTimeZone systemTimeZone];
-//			NSCalendarDate *rainTotalSince = [NSCalendarDate dateWithYear:rb[14 - rl] + 2000 month:rb[13 - rl] day:rb[12 - rl] hour:rb[11 - rl] minute:rb[10 - rl] second:0 timeZone:zone];
+//			NSCalendarDate *rainTotalSince = [NSCalendarDate dateWithYear:rb[14] + 2000 month:rb[13] day:rb[12] hour:rb[11] minute:rb[10] second:0 timeZone:zone];
 //			
 //			[userInfo setObject:rainTotalSince forKey:KEY_RAIN_TOTAL_SINCE_RESET];
 			

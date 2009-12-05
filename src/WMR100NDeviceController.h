@@ -10,13 +10,15 @@
 #import <IOKit/hid/IOHIDManager.h>
 
 
-#define WMR100N_REPORT_SIZE 8
-
 @interface WMR100NDeviceController : NSObject {
-	uint8_t report[WMR100N_REPORT_SIZE];
+	void *  report;
 	IOHIDManagerRef gHIDManager;
 	IOHIDDeviceRef gHidDeviceRef;
-	NSMutableData *reading;
+	NSMutableData *buffer;
 }
+
+- (void) openAndInitDevice:(IOReturn)inResult sender:(void *)inSender device:(IOHIDDeviceRef)inIOHIDDeviceRef;
+- (void) closeAndReleaseDevice: (IOHIDDeviceRef) hidDeviceRef;
+- (void) inputReport:(IOReturn)inResult sender:(void *)inSender type:(IOHIDReportType)inType reportID:(uint32_t)inReportID report:(uint8_t*)inReport length:(CFIndex)inReportLength;
 
 @end

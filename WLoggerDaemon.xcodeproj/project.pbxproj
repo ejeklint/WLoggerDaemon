@@ -63,6 +63,7 @@
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = src/main.m; sourceTree = "<group>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		4B0FA0ED0FE55F4800D94847 /* DataKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataKeys.h; path = src/DataKeys.h; sourceTree = "<group>"; };
+		4B1C18C110CA837D00D13524 /* WLoggerDaemon_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLoggerDaemon_Prefix.pch; path = src/WLoggerDaemon_Prefix.pch; sourceTree = "<group>"; };
 		4B4C65200FBDDA4F00F9B1BB /* ReadingAssembler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReadingAssembler.h; path = src/ReadingAssembler.h; sourceTree = "<group>"; };
 		4B4C65210FBDDA4F00F9B1BB /* ReadingAssembler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReadingAssembler.m; path = src/ReadingAssembler.m; sourceTree = "<group>"; };
 		4B4C67D80FC2AFAA00F9B1BB /* MGTwitterEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MGTwitterEngine.h; path = src/TwitterEngine/MGTwitterEngine.h; sourceTree = "<group>"; };
@@ -138,7 +139,6 @@
 		4BF6499E105E8F8100846D01 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "src/JSON/NSString+SBJSON.h"; sourceTree = "<group>"; };
 		4BF6499F105E8F8100846D01 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SBJSON.m"; path = "src/JSON/NSString+SBJSON.m"; sourceTree = "<group>"; };
 		4BF649A8105E8F9C00846D01 /* CouchObjC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CouchObjC.h; path = src/CouchObjC/CouchObjC.h; sourceTree = "<group>"; };
-		4BF920E7101E26C40067A22F /* WLogger_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLogger_Prefix.pch; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -229,8 +229,8 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				4BF920E7101E26C40067A22F /* WLogger_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				4B1C18C110CA837D00D13524 /* WLoggerDaemon_Prefix.pch */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
