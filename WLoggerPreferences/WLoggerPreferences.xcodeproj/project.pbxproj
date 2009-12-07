@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B6C975D10CC0B3B00289693 /* check.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4B6C975B10CC0B3B00289693 /* check.gif */; };
+		4B6C975E10CC0B3B00289693 /* error.gif in Resources */ = {isa = PBXBuildFile; fileRef = 4B6C975C10CC0B3B00289693 /* error.gif */; };
 		4BA4463510C13C6A00EC6D75 /* EMKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4BA4463410C13C6A00EC6D75 /* EMKeychainItem.m */; };
 		4BC1977610B5534500DE8CDA /* RemoteProtocol.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BC1977510B5534500DE8CDA /* RemoteProtocol.h */; };
 		4BC197E310B582A900DE8CDA /* EMKeychainItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 4BC197DD10B582A900DE8CDA /* EMKeychainItem.h */; };
@@ -31,6 +33,8 @@
 		089C167FFE841241C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		1058C7ADFEA557BF11CA2CBB /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
 		32DBCFA20370C41700C91783 /* WLoggerPreferences_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLoggerPreferences_Prefix.pch; sourceTree = "<group>"; };
+		4B6C975B10CC0B3B00289693 /* check.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = check.gif; sourceTree = "<group>"; };
+		4B6C975C10CC0B3B00289693 /* error.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = error.gif; sourceTree = "<group>"; };
 		4BA4463410C13C6A00EC6D75 /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EMKeychainItem.m; path = ../src/EMKeychainItem.m; sourceTree = SOURCE_ROOT; };
 		4BC1977510B5534500DE8CDA /* RemoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteProtocol.h; path = ../src/RemoteProtocol.h; sourceTree = "<group>"; };
 		4BC197DD10B582A900DE8CDA /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EMKeychainItem.h; path = ../src/EMKeychainItem.h; sourceTree = "<group>"; };
@@ -87,6 +91,8 @@
 		089C167CFE841241C02AAC07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				4B6C975B10CC0B3B00289693 /* check.gif */,
+				4B6C975C10CC0B3B00289693 /* error.gif */,
 				8D202CF70486D31800D8A456 /* Info.plist */,
 				089C167DFE841241C02AAC07 /* InfoPlist.strings */,
 				F506C040013D9D8001CA16C8 /* WLoggerPreferencesPref.tiff */,
@@ -209,6 +215,8 @@
 				8D202CED0486D31800D8A456 /* InfoPlist.strings in Resources */,
 				8D202CEE0486D31800D8A456 /* WLoggerPreferencesPref.tiff in Resources */,
 				8D202CEF0486D31800D8A456 /* WLoggerPreferencesPref.xib in Resources */,
+				4B6C975D10CC0B3B00289693 /* check.gif in Resources */,
+				4B6C975E10CC0B3B00289693 /* error.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

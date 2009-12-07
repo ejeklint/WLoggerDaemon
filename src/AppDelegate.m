@@ -62,6 +62,7 @@ static BOOL gDebugPrint;
 		[new setObject:@"2" forKey:@"couchDBUpdateInterval"];
 		[new setObject:[NSNumber numberWithBool:YES] forKey:@"useComputersClock"];
 		[new setObject:[NSNumber numberWithBool:NO] forKey:@"useTwitter"];
+		[new setObject:[NSNumber numberWithBool:NO] forKey:@"useDebugLogging"];
 		[new setObject:@"" forKey:@"twitterUser"];
 		[self saveSettings:new];
 		settings = new;
@@ -118,11 +119,13 @@ static BOOL gDebugPrint;
 	}
 	// Save to disk
 	CFPreferencesSynchronize(APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
-		
+	
+	// Sync globals
 	int interval = [[settings objectForKey:@"couchDBUpdateInterval"] integerValue];
 	if (interval < 1 || interval > 1000)
 		interval = 2; // Reasonable default value if it should be missing
-	[ra setInterval: interval]; 
+	[ra setInterval: interval];
+	
 	if (DEBUGALOT)
 		NSLog(@"Setting update interval to %d", interval);
 	
@@ -193,7 +196,7 @@ static BOOL gDebugPrint;
 		hoststring = [NSString stringWithFormat:@"%@:%@@%@",
 					  username,
 //					  [keychainItem password],
-					  password,
+					  password, // This one - instead of above
 					  [settings valueForKey:@"couchDBURL"]];
 	} else {
 		hoststring = [settings valueForKey:@"couchDBURL"];
@@ -287,7 +290,6 @@ static BOOL gDebugPrint;
 }
 
 
-
 - (void) dealloc {
 	[super dealloc];
 }
@@ -345,6 +347,7 @@ static BOOL gDebugPrint;
 	
 	[storedReport put];
 }
+
 
 - (void) levelReportListener:(NSNotification *)notification {
 	NSDictionary *userInfo = [notification userInfo];

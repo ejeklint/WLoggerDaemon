@@ -97,8 +97,8 @@ static int minuteCycleDone;
 	NSDictionary *userInfo = [notification userInfo];
 	NSMutableData *data = [userInfo valueForKey:@"data"];
 	
-	if (DEBUGALOT)
-		NSLog(@"Reading received: %@", data);
+//	if (DEBUGALOT)
+//		NSLog(@"Reading received: %@", data);
 	
 	UInt8* rb = (UInt8*) [data bytes];
 	
@@ -213,17 +213,14 @@ static int minuteCycleDone;
 			unsigned relativePressure = (rb[4] + (rb[5] & 0x0f) * 256);
 			unsigned absolutePressure = (rb[2] + (rb[3] & 0x0f) * 256);
 			unsigned absolutePressureForecast = (rb[3] >> 4);
-			if (absolutePressureForecast > 4)
-				absolutePressureForecast = 5; // Set to "unknown" value if not within limits (0-4)
-			
 			unsigned relativePressureForecast = (rb[5] >> 4);
 			
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:1];
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:absolutePressure] forKey:KEY_BAROMETER_ABSOLUTE];				
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:relativePressure] forKey:KEY_BAROMETER_RELATIVE];				
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST];
-			[userInfo setObject:[NSNumber numberWithUnsignedInt:relativePressureForecast] forKey:KEY_BAROMETER_RELATIVE_FORECAST];
-			[userInfo setObject:FORECAST_STRING[absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST_STRING];
+			[userInfo setObject:[NSNumber numberWithUnsignedInt:relativePressureForecast] forKey:KEY_BAROMETER_RELATIVE_FORECAST]; // Does this ever change?
+			[userInfo setObject:FORECAST_STRING[(absolutePressureForecast > 5) ? 5 : absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST_STRING]; // Code is 1-5, subtract 1
 
 			[self sendReadings:userInfo ofType:KEY_BAROMETER_READING];
 			

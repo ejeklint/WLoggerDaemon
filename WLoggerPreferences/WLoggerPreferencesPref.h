@@ -30,12 +30,12 @@
 	
 	IBOutlet NSButton *debugLogging;
 
-
 	NSConnection *connection;
 	id proxy;
 }
 
-- (IBAction)debugClicked:(id)sender;
-- (IBAction)validateClicked:(id)sender;
+- (IBAction) debugClicked: (id) sender;
+- (IBAction) saveGeneralClicked: (id) sender;
+- (IBAction) saveStorageClicked: (id) sender;
 
 @end

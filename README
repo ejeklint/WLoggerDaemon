@@ -1,1 +1,0 @@
-WLoggerDaemon is a mac daemon (background application) that connects with USB to one of Oregon Scientifics USB based weather stations, WMR100 or WMRS200. WLoggerDaemon logs data to CouchDB and/or sends twitter updates every hour with latest weather.
