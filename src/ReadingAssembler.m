@@ -15,6 +15,7 @@
 
 
 NSString *FORECAST_STRING[] = {@"partly cloudy",@"rainy",@"cloudy",@"sunny",@"snowy", @"unknown"};	
+NSString *BATTERY_LEVEL_STRING[] = {@"none", @"low", @"high"};
 
 
 @implementation ReadingAssembler
@@ -55,7 +56,7 @@ static int minuteCycleDone;
 	int level = (reading & 0x40) ? 1 : 2; // 1 for low battery, 2 for full
 	
 	NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:1];
-	[report setObject:[NSNumber numberWithInt:level] forKey:unit];
+	[report setObject:BATTERY_LEVEL_STRING[level] forKey:unit];
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusReport" object:self userInfo:report];
 
 	/*	if (reading & 0x40) {
@@ -333,9 +334,10 @@ static int minuteCycleDone;
 			BOOL strongRFSignal = rb[0] & 0x10;
 			
 			NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:3];
-			[report setObject:[NSNumber numberWithBool:noPower] forKey:KEY_POWER_BASE];
-			[report setObject:[NSNumber numberWithBool:syncedWithRF] forKey:KEY_RADIO_CLOCK_SYNC];
-			[report setObject:[NSNumber numberWithBool:strongRFSignal] forKey:KEY_RADIO_CLOCK_LEVEL];
+			[report setObject:noPower ? @"no" : @"yes" forKey:KEY_POWER_BASE];
+			[report setObject:syncedWithRF ? @"no" : @"yes" forKey:KEY_RADIO_CLOCK_SYNC];
+			if (syncedWithRF)
+				[report setObject:strongRFSignal ? @"low" : @"high" forKey:KEY_RADIO_CLOCK_LEVEL];
 			[report setObject:[dateFormatter stringFromDate:baseStationTime] forKey:KEY_BASE_STATION_TIME];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusReport" object:self userInfo:report];
 			

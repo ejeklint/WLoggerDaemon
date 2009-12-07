@@ -37,5 +37,6 @@
 - (IBAction) debugClicked: (id) sender;
 - (IBAction) saveGeneralClicked: (id) sender;
 - (IBAction) saveStorageClicked: (id) sender;
+- (IBAction) chimeTest: (id) sender;
 
 @end

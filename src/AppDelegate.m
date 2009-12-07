@@ -82,6 +82,7 @@ static BOOL gDebugPrint;
 
 - (BOOL) setDebug: (NSNumber*) debug {
 	NSLog(@"Changed Debug setting to %d", [debug boolValue]);
+	
 	gDebugPrint = [debug boolValue];
 	return gDebugPrint;
 }
@@ -219,11 +220,12 @@ static BOOL gDebugPrint;
 	SBCouchDocument *storedReport = [db getDocument:KEY_DOC_STATUS withRevisionCount:NO andInfo:NO revision:nil];
 	if (!storedReport) {
 		storedReport = [[SBCouchDocument alloc] initWithNSDictionary:currentStatus couchDatabase:db];
+		[storedReport setObject:KEY_DOC_STATUS forKey:KEY_DOC_DOCTYPE];
 		[storedReport setObject:KEY_DOC_STATUS forKey:KEY_COUCH_ID];
 	} else {
-		[storedReport setDictionary:currentStatus];
+		[storedReport addEntriesFromDictionary:currentStatus];
 	}
-	[storedReport put];
+	SBCouchResponse *response =[db putDocument:storedReport named:KEY_DOC_STATUS];
 
 	// Update twitter
 	CFBooleanRef temp = (CFBooleanRef) CFPreferencesCopyValue(CFSTR("useTwitter"), APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
@@ -354,7 +356,6 @@ static BOOL gDebugPrint;
 	NSDictionary *userInfo = [notification userInfo];
 	
 	[currentStatus addEntriesFromDictionary:userInfo];
-	NSLog(@"Current status: %@", currentStatus);
 }
 
 

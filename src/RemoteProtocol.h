@@ -16,9 +16,9 @@
 #define KEY_LEVEL_BASE @"baseBatteryLevel"
 #define KEY_LEVEL_SENSOR_ @"tempBatteryLevelSensor_"
 
-#define KEY_POWER_BASE @"baseStationPower"
-#define KEY_RADIO_CLOCK_SYNC @"baseRadioSync"
-#define KEY_RADIO_CLOCK_LEVEL @"baseRadioLevel"
+#define KEY_POWER_BASE @"baseHasExternalPower"
+#define KEY_RADIO_CLOCK_SYNC @"baseHasRadioSync"
+#define KEY_RADIO_CLOCK_LEVEL @"baseRadioSyncLevel"
 #define KEY_BASE_STATION_TIME @"baseStationTime"
 #define KEY_RAIN_TOTAL_RESET_TIME @"rainTotalResetTime"
 
@@ -31,5 +31,6 @@
 - (BOOL) setupTwitter: (NSDictionary*) settings;
 - (BOOL) setupCouchDB: (NSDictionary*) settings;
 - (BOOL) setDebug: (NSNumber*) state;
+- (void) hourChime: (NSTimer*) timer;
 
 @end

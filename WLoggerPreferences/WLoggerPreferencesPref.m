@@ -24,8 +24,11 @@
 	return self;
 }
 
+- (void) mainViewDidLoad {
+}
 
 - (void) didSelect {
+
 	if (!proxy || !settings) {
 		// No connection to daemon, inform user
 		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -108,6 +111,10 @@
 	//
 }
 
+- (void) willUnselect {
+	proxy = NULL;
+	connection = NULL;
+}
 
 - (IBAction)debugClicked:(id)sender {
 	// Immediatey change log settings
@@ -147,5 +154,8 @@
 	[proxy saveSettings:settings];
 }
 
+- (IBAction) chimeTest: (id) sender{
+	[proxy hourChime:nil];
+}
 
 @end
