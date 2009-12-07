@@ -25,16 +25,14 @@
     SBCouchServer *couch;
     SBCouchDatabase *db;
 	NSMutableDictionary *weatherReport;
-	NSMutableDictionary *levels;
+	NSMutableDictionary *currentStatus;
 }
 
 + (BOOL) debugPrint;
 - (NSDictionary *) getSettings;
 - (BOOL) saveSettings: (NSDictionary *) dict;
-- (void) setupConnection;
-- (void) setupNotificationSubscription;
 - (BOOL) setupTwitter: (NSDictionary*) settings;
 - (BOOL) setupCouchDB: (NSDictionary*) settings;
-
+- (void) updateTwitter;
 
 @end

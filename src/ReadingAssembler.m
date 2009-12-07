@@ -56,7 +56,7 @@ static int minuteCycleDone;
 	
 	NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:1];
 	[report setObject:[NSNumber numberWithInt:level] forKey:unit];
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"LevelReport" object:self userInfo:report];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusReport" object:self userInfo:report];
 
 	/*	if (reading & 0x40) {
 	 
@@ -121,18 +121,23 @@ static int minuteCycleDone;
 			
 			double rain24hour = [self roundedDoubleFromHighByte:rb[7] lowByte:rb[6] conversionFactor:0.254];
 			[userInfo setObject:[NSNumber numberWithDouble:rain24hour] forKey:KEY_RAIN_24H];				
-			
-//			NSTimeZone *zone = [NSTimeZone systemTimeZone];
-//			NSCalendarDate *rainTotalSince = [NSCalendarDate dateWithYear:rb[14] + 2000 month:rb[13] day:rb[12] hour:rb[11] minute:rb[10] second:0 timeZone:zone];
-//			
-//			[userInfo setObject:rainTotalSince forKey:KEY_RAIN_TOTAL_SINCE_RESET];
-			
+						
 			[self sendReadings:userInfo ofType:KEY_RAIN_READING];
 			
 			if (DEBUGALOT)
 				NSLog(@"Rain report: %@", userInfo);
 				
 			[self checkBatteryReading:rb[0]	andPostNotificationIfLowForUnit:KEY_LEVEL_RAIN];
+			
+			NSTimeZone *zone = [NSTimeZone systemTimeZone];
+			NSCalendarDate *rainTotalSince = [NSCalendarDate dateWithYear:rb[14] + 2000 month:rb[13] day:rb[12] hour:rb[11] minute:rb[10] second:0 timeZone:zone];
+			
+			NSMutableDictionary *report = [NSMutableDictionary dictionaryWithCapacity:1];
+			[report setObject:rainTotalSince forKey:KEY_RAIN_TOTAL_RESET_TIME];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusReport" object:self userInfo:report];
+
+			if (DEBUGALOT)
+				NSLog(@"Rain reset date report: %@", report);
 			
 			break;
 		}
@@ -237,7 +242,8 @@ static int minuteCycleDone;
 
 			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:KEY_LEVEL_UV];
 
-			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:uvIndex] forKey:KEY_UV_INDEX];			[self sendReadings:userInfo ofType:KEY_UV_READING];
+			NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[NSNumber numberWithUnsignedInt:uvIndex] forKey:KEY_UV_INDEX];
+			[self sendReadings:userInfo ofType:KEY_UV_READING];
 
 			if (DEBUGALOT)
 				NSLog(@"UV report: %@", userInfo);				
@@ -285,6 +291,26 @@ static int minuteCycleDone;
 				minuteCycleDone++;
 				break;
 			}
+
+			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+			[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
+
+			// Get the time from the base station
+			short int GMTZone = rb[9];
+			if (GMTZone > 128)
+				GMTZone = (128 - GMTZone);
+			
+			NSTimeZone *zone = [NSTimeZone timeZoneForSecondsFromGMT:GMTZone * 3600];
+			NSDateComponents *comps = [[NSDateComponents alloc] init];
+			[comps setYear:rb[8] + 2000];
+			[comps setMonth:rb[7]];
+			[comps setDay:rb[6]];
+			[comps setHour:rb[5]];
+			[comps setMinute:rb[4]];
+			[comps setSecond:0];
+			
+			NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+			NSDate *baseStationTime = [gregorian dateFromComponents:comps];
 			
 			NSDate *time;
 			NSInteger minute;
@@ -294,21 +320,7 @@ static int minuteCycleDone;
 				NSDateComponents *minuteComponents = [gregorian components:(NSMinuteCalendarUnit) fromDate:time];
 				minute = [minuteComponents minute];
 			} else {
-				short int GMTZone = rb[9];
-				if (GMTZone > 128)
-					GMTZone = (128 - GMTZone);
-				
-				NSTimeZone *zone = [NSTimeZone timeZoneForSecondsFromGMT:GMTZone * 3600];
-				NSDateComponents *comps = [[NSDateComponents alloc] init];
-				[comps setYear:rb[8] + 2000];
-				[comps setMonth:rb[7]];
-				[comps setDay:rb[6]];
-				[comps setHour:rb[5]];
-				[comps setMinute:rb[4]];
-				[comps setSecond:0];
-				
-				NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-				time = [gregorian dateFromComponents:comps];
+				time = baseStationTime;
 				minute = [comps minute];
 			}
 			
@@ -324,7 +336,11 @@ static int minuteCycleDone;
 			[report setObject:[NSNumber numberWithBool:noPower] forKey:KEY_POWER_BASE];
 			[report setObject:[NSNumber numberWithBool:syncedWithRF] forKey:KEY_RADIO_CLOCK_SYNC];
 			[report setObject:[NSNumber numberWithBool:strongRFSignal] forKey:KEY_RADIO_CLOCK_LEVEL];
-			[[NSNotificationCenter defaultCenter] postNotificationName:@"LevelReport" object:self userInfo:report];
+			[report setObject:[dateFormatter stringFromDate:baseStationTime] forKey:KEY_BASE_STATION_TIME];
+			[[NSNotificationCenter defaultCenter] postNotificationName:@"StatusReport" object:self userInfo:report];
+			
+			if (DEBUGALOT)
+				NSLog(@"Base station status report: %@", report);
 			
 			if (noPower) {
 				// Not good! Alert user once every hour
@@ -346,11 +362,8 @@ static int minuteCycleDone;
 			}
 			
 			// TODO: Check if this is useful or if it comes from temp sensor 0
-			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:@"Base Unit"];
-									
-			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-			[dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm"];
-			
+			[self checkBatteryReading:rb[0] andPostNotificationIfLowForUnit:KEY_LEVEL_BASE];
+												
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:2];
 			[userInfo setObject: [dateFormatter stringFromDate:time] forKey:KEY_COUCH_ID];
 			[[NSNotificationCenter defaultCenter] postNotificationName:@"MinuteReport" object:self userInfo:userInfo];

@@ -8,14 +8,19 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define KEY_REMOTE_CONNECTION_NAME @"se.ejeklint.WLoggerDaemonConnection"
+
 #define KEY_LEVEL_RAIN @"rainBatteryLevel"
 #define KEY_LEVEL_WIND @"windBatteryLevel"
 #define KEY_LEVEL_UV @"uvBatteryLevel"
+#define KEY_LEVEL_BASE @"baseBatteryLevel"
 #define KEY_LEVEL_SENSOR_ @"tempBatteryLevelSensor_"
 
 #define KEY_POWER_BASE @"baseStationPower"
 #define KEY_RADIO_CLOCK_SYNC @"baseRadioSync"
 #define KEY_RADIO_CLOCK_LEVEL @"baseRadioLevel"
+#define KEY_BASE_STATION_TIME @"baseStationTime"
+#define KEY_RAIN_TOTAL_RESET_TIME @"rainTotalResetTime"
 
 
 @protocol RemoteProtocol

@@ -7,7 +7,7 @@
 
 #import "WLoggerPreferencesPref.h"
 #import "RemoteProtocol.h"
-#import "KeyChainHandler.h"
+
 
 @implementation WLoggerPreferencesPref
 
@@ -15,7 +15,7 @@
 - (id) initWithBundle:(NSBundle *)bundle {
 	if ((self = [super initWithBundle:bundle]) != nil) {		
 		// Set connection to daemon and get its settings
-		connection = [NSConnection connectionWithRegisteredName:@"se.ejeklint.WLoggerDaemonConnection" host:nil];
+		connection = [NSConnection connectionWithRegisteredName:KEY_REMOTE_CONNECTION_NAME host:nil];
 		[connection setRequestTimeout:5.0];
 		proxy = [[connection rootProxy] retain];
 		[proxy setProtocolForProxy:@protocol(RemoteProtocol)];
