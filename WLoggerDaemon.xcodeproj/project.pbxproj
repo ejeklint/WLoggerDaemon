@@ -125,6 +125,7 @@
 		4BD3A3A0105E94E00048F7E5 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSObject+SBJSON.m"; path = "src/JSON/NSObject+SBJSON.m"; sourceTree = "<group>"; };
 		4BD3A3A1105E94E00048F7E5 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+SBJSON.h"; path = "src/JSON/NSString+SBJSON.h"; sourceTree = "<group>"; };
 		4BD3A3A2105E94E00048F7E5 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+SBJSON.m"; path = "src/JSON/NSString+SBJSON.m"; sourceTree = "<group>"; };
+		4BDF48EC10CF94F90057C860 /* WLogger_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WLogger_Prefix.pch; path = src/WLogger_Prefix.pch; sourceTree = "<group>"; };
 		4BE2853710B0398700209635 /* WLoggerDaemon */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = WLoggerDaemon; sourceTree = BUILT_PRODUCTS_DIR; };
 		4BF471700FC9B4E100CAF2EB /* EMKeychainItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EMKeychainItem.h; path = src/EMKeychainItem.h; sourceTree = "<group>"; };
 		4BF471710FC9B4E100CAF2EB /* EMKeychainItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EMKeychainItem.m; path = src/EMKeychainItem.m; sourceTree = "<group>"; };
@@ -215,6 +216,7 @@
 		29B97314FDCFA39411CA2CEA /* LogitechLCDTool */ = {
 			isa = PBXGroup;
 			children = (
+				4BDF48EC10CF94F90057C860 /* WLogger_Prefix.pch */,
 				4BF471770FC9B5AC00CAF2EB /* Security.framework */,
 				1BD78AE20B4A87090094B0E4 /* Build Support */,
 				080E96DDFE201D6D7F000001 /* Classes */,
@@ -469,9 +471,12 @@
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_PREPROCESSOR_DEFINITIONS = "DEBUG=1";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -480,21 +485,28 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = macosx10.5;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
 		C01FCF5008A954540054247B /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CURRENT_PROJECT_VERSION = 2;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_ENABLE_OBJC_GC = required;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};

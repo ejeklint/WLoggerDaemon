@@ -7,6 +7,7 @@
 
 //#import <Growl/GrowlApplicationBridge.h>
 
+
 @implementation AppDelegate
 
 
@@ -73,6 +74,13 @@ static BOOL gDebugPrint;
 	[nc addObserver:self selector:@selector(deviceAddedListener:) name:@"DeviceAdded" object:nil];
 	[nc addObserver:self selector:@selector(deviceRemovedListener:) name:@"DeviceRemoved" object:nil];	
 	
+	// Hour chime timer. Shoot every hour, start at next whole hour
+	NSTimeInterval since2001 = [[NSDate date] timeIntervalSinceReferenceDate];
+	NSDate *nextHour = [NSDate dateWithTimeIntervalSinceReferenceDate: (int)(since2001 / 3600) * 3600 + 3600]; 
+	
+	myTickTimer = [[NSTimer alloc] initWithFireDate:nextHour interval:3600 target:self selector:@selector(hourChime:) userInfo:NULL repeats:YES];
+	[[NSRunLoop currentRunLoop] addTimer:myTickTimer forMode:NSDefaultRunLoopMode];
+	
 	// Set up self as Growl delegate.
 	//		[GrowlApplicationBridge setGrowlDelegate:self];
 }
@@ -132,16 +140,6 @@ static BOOL gDebugPrint;
 
 
 - (BOOL) setupTwitter: (NSDictionary*) settings {
-	
-	if (![[settings objectForKey:@"useTwitter"] boolValue]) {
-		if (myTickTimer) {
-			[myTickTimer invalidate];
-			[myTickTimer release];
-			myTickTimer = NULL;
-		}
-		return NO;
-	}
-												   
 	if (!twitterEngine)
 		twitterEngine = [[MGTwitterEngine alloc] initWithDelegate:self];
 	else
@@ -165,13 +163,6 @@ static BOOL gDebugPrint;
 	} else {
 		return NO;
 	}
-
-	// Twitter timer. Shoot every hour, start at next whole hour
-	NSTimeInterval since2001 = [[NSDate date] timeIntervalSinceReferenceDate];
-	NSDate *nextHour = [NSDate dateWithTimeIntervalSinceReferenceDate: (int)(since2001 / 3600) * 3600 + 3600]; 
-	
-	myTickTimer = [[NSTimer alloc] initWithFireDate:nextHour interval:3600 target:self selector:@selector(hourChime:) userInfo:NULL repeats:YES];
-	[[NSRunLoop currentRunLoop] addTimer:myTickTimer forMode:NSDefaultRunLoopMode];
 
 	return YES;
 }
@@ -362,7 +353,7 @@ static BOOL gDebugPrint;
 - (void)deviceAddedListener:(NSNotification *)notification {
 	(void) notification;
 	
-	NSLog(@"Weather station plugged in");
+	NSLog(@"Weather station plugged in. WLoggerDaemon build 2");
 	
 	NSDictionary *settings = [self getSettings];
 	

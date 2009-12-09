@@ -13,7 +13,7 @@
 
 
 - (id) initWithBundle:(NSBundle *)bundle {
-	if ((self = [super initWithBundle:bundle]) != nil) {		
+	if ((self = [super initWithBundle:bundle]) != nil) {
 		// Set connection to daemon and get its settings
 		connection = [NSConnection connectionWithRegisteredName:KEY_REMOTE_CONNECTION_NAME host:nil];
 		[connection setRequestTimeout:5.0];
