@@ -153,9 +153,9 @@ _To do: figure out byte 3_
 
 Barometer reading is reported both as absolute and relative. Reading also includes a forecast indicator.
 
-Forecast indicator is a number were 0 is Partly cloudy, 1 is Rainy, 2 is Cloudy, 3 is Sunny and 4 is Snowy. It's available both for absolute and relative pressure.
+Forecast indicator is a number were 0 is Partly cloudy, 1 is Rainy, 2 is Cloudy, 3 is Sunny and 5 is Snowy.
 
-_To do: check if the forecast for relative pressure is correct_
+_To do: verify all forecast indicators. Does 4 ever occur?_
 
 <table>
 	<tr><th>Length</th><th>8</th><th>Example: <code>00 46 ed 03 ed 33 56 02</code> </th></tr>
@@ -163,9 +163,9 @@ _To do: check if the forecast for relative pressure is correct_
 	<tr><td>0</td><td> <code>00</code> </td><td>Unused?</td></tr>
 	<tr><td>1</td><td> <code>46</code> </td><td>Identifier</td></tr>
 	<tr><td>2-3</td><td> <code>ed 03</code> </td><td>Absolute pressure, low nibble of byte 3 * 256 + byte 2</td></tr>
-	<tr><td>3</td><td> <code>03</code> </td><td>High nibble is forecast indicator for absolute pressure</td></tr>
+	<tr><td>3</td><td> <code>03</code> </td><td>High nibble is forecast indicator</td></tr>
 	<tr><td>4-5</td><td> <code>ed 03</code> </td><td>Relative pressure, low nibble of byte 5 * 256 + byte 4</td></tr>
-	<tr><td>5</td><td> <code>03</code> </td><td>High nibble is forecast indicator for relative pressure?</td></tr>
+	<tr><td>5</td><td> <code>03</code> </td><td>High nibble unknown</td></tr>
 	<tr><td>6-7</td><td> <code>56 02</code> </td><td>Checksum: 0x256</td></tr>
 </table>
 

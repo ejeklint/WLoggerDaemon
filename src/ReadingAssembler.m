@@ -14,7 +14,7 @@
 //#import <Growl/GrowlApplicationBridge.h>
 
 
-NSString *FORECAST_STRING[] = {@"partly cloudy",@"rainy",@"cloudy",@"sunny",@"snowy", @"unknown"};	
+NSString *FORECAST_STRING[] = {@"partly cloudy", @"rainy", @"cloudy", @"sunny", @"unknown", @"snowy", @"unknown"};	
 NSString *BATTERY_LEVEL_STRING[] = {@"none", @"low", @"high"};
 
 
@@ -226,7 +226,7 @@ static int minuteCycleDone;
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:relativePressure] forKey:KEY_BAROMETER_RELATIVE];				
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST];
 			[userInfo setObject:[NSNumber numberWithUnsignedInt:relativePressureForecast] forKey:KEY_BAROMETER_RELATIVE_FORECAST]; // Does this ever change?
-			[userInfo setObject:FORECAST_STRING[(absolutePressureForecast > 5) ? 5 : absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST_STRING]; // Code is 1-5, subtract 1
+			[userInfo setObject:FORECAST_STRING[(absolutePressureForecast > 6) ? 6 : absolutePressureForecast] forKey:KEY_BAROMETER_ABSOLUTE_FORECAST_STRING]; // Code is 1-5, subtract 1
 
 			[self sendReadings:userInfo ofType:KEY_BAROMETER_READING];
 			

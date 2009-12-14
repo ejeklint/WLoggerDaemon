@@ -17,7 +17,7 @@
 
 #define KEY_DOC_DOCTYPE			@"doctype"
 #define KEY_DOC_READINGS		@"readings"
-#define KEY_DOC_STATUS			@"deviceStatus"
+#define KEY_DOC_STATUS			@"device_status"
 
 #define KEY_TIMESTAMP			@"timestamp"
 #define KEY_READINGS			@"readings"
