@@ -313,6 +313,9 @@ static int minuteCycleDone;
 			NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
 			NSDate *baseStationTime = [gregorian dateFromComponents:comps];
 			
+			if (DEBUGALOT)
+				NSLog(@"Base station time: %@", [dateFormatter stringFromDate:baseStationTime]);
+			
 			NSDate *time;
 			NSInteger minute;
 			if (useComputersClock == YES) {

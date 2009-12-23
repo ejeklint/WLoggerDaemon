@@ -353,7 +353,7 @@ static BOOL gDebugPrint;
 - (void)deviceAddedListener:(NSNotification *)notification {
 	(void) notification;
 	
-	NSLog(@"Weather station plugged in. WLoggerDaemon build 2");
+	NSLog(@"Weather station plugged in. WLoggerDaemon build 3");
 	
 	NSDictionary *settings = [self getSettings];
 	
