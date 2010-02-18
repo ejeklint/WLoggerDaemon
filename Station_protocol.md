@@ -123,7 +123,7 @@ Heat index is reported if temperature climbs over 80 F, 26.7 C.
 
 ####Wind
 
-Wind is measured in m/s, direction in degrees (0-360). Wind chill is only reported for lower degrees.
+Wind is measured in m/s, direction in degrees (0-360). Wind chill is only reported for lower degrees. 
 
 _To do: figure out byte 3_
 
@@ -179,10 +179,10 @@ Rain is reported in inches, rain rate in inches/hour.
 	<tr><th>Byte</th><th>Data</th><th>Comment</th></tr>
 	<tr><td>0</td><td> <code>00</code> </td><td>Battery level in high nibble</td></tr>
 	<tr><td>1</td><td> <code>41</code> </td><td>Identifier</td></tr>
-	<tr><td>2-3</td><td> <code>ff 02</code> </td><td>Rain rate: byte 3 * 256 + byte 2, in inches/hour (verify time unit)</td></tr>
-	<tr><td>4-5</td><td> <code>0c 00</code> </td><td>Rain last hour: byte 5 * 256 + byte 4, in inches</td></tr>
-	<tr><td>6-7</td><td> <code>00 00</code> </td><td>Rain last 24 hours: byte 7 * 256 + byte 6, in inches</td></tr>
-	<tr><td>8-9</td><td> <code>00 25</code> </td><td>Total rain since reset date: byte 9 * 256 + byte 8, in inches</td></tr>
+	<tr><td>2-3</td><td> <code>ff 02</code> </td><td>Rain rate: (byte 3 * 256 + byte 2) / 10, in inches/hour (verify time unit)</td></tr>
+	<tr><td>4-5</td><td> <code>0c 00</code> </td><td>Rain last hour: (byte 5 * 256 + byte 4) / 10, in inches</td></tr>
+	<tr><td>6-7</td><td> <code>00 00</code> </td><td>Rain last 24 hours: (byte 7 * 256 + byte 6) / 10, in inches</td></tr>
+	<tr><td>8-9</td><td> <code>00 25</code> </td><td>Total rain since reset date: (byte 9 * 256 + byte 8) / 10, in inches</td></tr>
 	<tr><td>10</td><td> <code>00</code> </td><td>Minute of reset date</td></tr>
 	<tr><td>11</td><td> <code>0c</code> </td><td>Hour of reset date</td></tr>
 	<tr><td>12</td><td> <code>01</code> </td><td>Day of reset date</td></tr>
