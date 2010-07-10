@@ -172,14 +172,14 @@ _To do: verify all forecast indicators. Does 4 ever occur?_
 
 ####Rain
 
-Rain is reported in inches, rain rate in inches/hour.
+Rain is reported in inches * 10, rain rate in inches/hour * 10. Divide by 10 to get proper values. Or, even better, multiply with 0.254 to get millimeters. :-)
 
 <table>
 	<tr><th>Length</th><th>17</th><th>Example: <code>00 41 ff 02 0c 00 00 00 25 00 00 0c 01 01 06 87 01</code> </th></tr>
 	<tr><th>Byte</th><th>Data</th><th>Comment</th></tr>
 	<tr><td>0</td><td> <code>00</code> </td><td>Battery level in high nibble</td></tr>
 	<tr><td>1</td><td> <code>41</code> </td><td>Identifier</td></tr>
-	<tr><td>2-3</td><td> <code>ff 02</code> </td><td>Rain rate: (byte 3 * 256 + byte 2) / 10, in inches/hour (verify time unit)</td></tr>
+	<tr><td>2-3</td><td> <code>ff 02</code> </td><td>Rain rate: (byte 3 * 256 + byte 2) / 10, in inches/hour</td></tr>
 	<tr><td>4-5</td><td> <code>0c 00</code> </td><td>Rain last hour: (byte 5 * 256 + byte 4) / 10, in inches</td></tr>
 	<tr><td>6-7</td><td> <code>00 00</code> </td><td>Rain last 24 hours: (byte 7 * 256 + byte 6) / 10, in inches</td></tr>
 	<tr><td>8-9</td><td> <code>00 25</code> </td><td>Total rain since reset date: (byte 9 * 256 + byte 8) / 10, in inches</td></tr>
