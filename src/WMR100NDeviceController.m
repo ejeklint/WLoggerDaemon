@@ -147,7 +147,12 @@ static void Handle_IOHIDDeviceInputReportCallback(void *          inContext,		//
 			if (bytes[i] == 0xff && bytes[i+1] == 0xff) {
 				NSData *new = [NSData dataWithBytes:[buffer bytes] length:i];
 				[self postReadingAndPrepareForNew: new];
-				[buffer setLength:0];
+				// Patch from kglueck. Thanks!
+				if ((i + 2) < len) { // if data exists after the 0xFF 0xFF marker
+					char *bufferData=[buffer mutableBytes];
+					memmove(bufferData,(bufferData + i + 2),(len - i - 2));
+				}
+				[buffer setLength:(len - i - 2)];
 				break;
 			}
 		}
