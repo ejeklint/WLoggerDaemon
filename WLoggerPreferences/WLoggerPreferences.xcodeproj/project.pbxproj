@@ -28,7 +28,7 @@
 		4BC1977510B5534500DE8CDA /* RemoteProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RemoteProtocol.h; path = ../src/RemoteProtocol.h; sourceTree = "<group>"; };
 		4BC197F410B583BC00DE8CDA /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8D202CF70486D31800D8A456 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		8D202CF80486D31800D8A456 /* WLogger.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WLogger.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
+		8D202CF80486D31800D8A456 /* WLoggerPreferences.prefPane */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WLoggerPreferences.prefPane; sourceTree = BUILT_PRODUCTS_DIR; };
 		F506C035013D953901CA16C8 /* PreferencePanes.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PreferencePanes.framework; path = /System/Library/Frameworks/PreferencePanes.framework; sourceTree = "<absolute>"; };
 		F506C03C013D9D7901CA16C8 /* WLoggerPreferencesPref.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WLoggerPreferencesPref.h; sourceTree = "<group>"; };
 		F506C03D013D9D7901CA16C8 /* WLoggerPreferencesPref.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WLoggerPreferencesPref.m; sourceTree = "<group>"; };
@@ -114,7 +114,7 @@
 		19C28FB8FE9D52D311CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8D202CF80486D31800D8A456 /* WLogger.prefPane */,
+				8D202CF80486D31800D8A456 /* WLoggerPreferences.prefPane */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -160,7 +160,7 @@
 			name = WLogger;
 			productInstallPath = "$(HOME)/Library/PreferencePanes";
 			productName = WLoggerPreferences;
-			productReference = 8D202CF80486D31800D8A456 /* WLogger.prefPane */;
+			productReference = 8D202CF80486D31800D8A456 /* WLoggerPreferences.prefPane */;
 			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */

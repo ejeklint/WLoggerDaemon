@@ -80,8 +80,7 @@ static int minuteCycleDone;
 
 - (double) roundedDoubleFromHighByte:(UInt8)high lowByte:(UInt8)low conversionFactor:(double)factor {
 	double result = (high * 256 + low) * factor;
-	result = round(result * 10.0) / 10.0;
-	return result;
+	return round(result * 10) / 10.0;
 }
 
 - (void) sendReadings: (NSDictionary*) readings ofType: (NSString*) type {
@@ -175,16 +174,10 @@ static int minuteCycleDone;
 			
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:3];
 
-			// Senson 1 might report Heat Index. This seems to differ between WMR100N and WMRS200. WMRS200: rb[7] == 1 indicates Heat Index present
-			if (rb[8] > 0 /*rb[7] & 0x01*/) {
-				// TODO: Check if this is true! For WMRS200, heat index is in "Celius"
-				double heatIndex;
-				if (1 /* It's WMRS200 */) {
-					heatIndex = [self roundedDoubleFromHighByte:(rb[7] & 0x0f) lowByte:rb[8] conversionFactor:0.1]; // WMRS200 uses Celsius
-				} else {
-					heatIndex = ([self roundedDoubleFromHighByte:(rb[9] & 0x0f) lowByte:rb[8] conversionFactor:0.1] - 32) / 1.8; // WMR100 uses Fahrenheit
-					heatIndex = round(heatIndex * 10.0) / 10.0;
-				}
+			// Sensors might report Heat Index. High nibble of rb[9] == 0 indicates Heat Index present - I think!
+			if ((rb[9] & 0xf0) == 0) {
+				double heatIndex = ([self roundedDoubleFromHighByte:(rb[9] & 0x0f) lowByte:rb[8] conversionFactor:1] - 32) / 1.8; // In Fahrenheit
+				heatIndex = round(heatIndex * 10) / 10.0;
 				[userInfo setObject:[NSNumber numberWithDouble:heatIndex] forKey:KEY_HEAT_INDEX];
 			}
 
@@ -195,7 +188,6 @@ static int minuteCycleDone;
 				[userInfo setObject:[NSNumber numberWithDouble:temp] forKey:KEY_TEMP_OUTDOOR];				
 				[userInfo setObject:[NSNumber numberWithUnsignedInt:humidity] forKey:KEY_HUMIDITY_OUTDOOR];
 				[userInfo setObject:[NSNumber numberWithDouble:dewPoint] forKey:KEY_TEMP_DEWPOINT_CALCULATED];		
-//				[userInfo setObject:[NSNumber numberWithDouble:reportedDewPoint] forKey:KEY_TEMP_DEWPOINT_REPORTED];
 			} else if (sensor >= 2) {
 				NSString *keyForTemp = [NSString stringWithFormat:@"%@%d", KEY_TEMP_SENSOR_X, sensor];
 				NSString *keyForHumidity = [NSString stringWithFormat:@"%@%d", KEY_HUMIDITY_SENSOR_X, sensor];

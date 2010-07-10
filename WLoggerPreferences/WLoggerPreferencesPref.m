@@ -20,6 +20,7 @@
 		proxy = [[connection rootProxy] retain];
 		[proxy setProtocolForProxy:@protocol(RemoteProtocol)];
 		settings = [NSMutableDictionary dictionaryWithDictionary: [proxy getSettings]];
+		NSLog(@"%@", settings);
 	}
 	return self;
 }
@@ -41,10 +42,12 @@
 	[spinner setDisplayedWhenStopped:NO];
 			
 	NSDictionary *levels = [proxy getLevels];
+	NSLog(@"Got levels %@", levels);
+	
 	if (levels) {
-		NSNumber *l = [levels objectForKey:KEY_LEVEL_RAIN];
+		NSString *l = [levels objectForKey:KEY_LEVEL_RAIN];
 		if (l) {
-			[rainBatteryIndicator setIntValue:[l integerValue]];
+			[rainBatteryIndicator setIntValue:([l isEqualToString:@"high"] == TRUE ) ? 2 : 1];
 			[rainLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[rainBatteryIndicator setIntValue:0];
@@ -53,7 +56,7 @@
 		
 		l = [levels objectForKey:KEY_LEVEL_WIND];
 		if (l) {
-			[windBatteryIndicator setIntValue:[l integerValue]];
+			[windBatteryIndicator setIntValue:([l isEqualToString:@"high"] == TRUE ) ? 2 : 1];
 			[windLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[windBatteryIndicator setIntValue:0];
@@ -62,7 +65,7 @@
 		
 		l = [levels objectForKey:[NSString stringWithFormat:@"%@1", KEY_LEVEL_SENSOR_]];
 		if (l) {
-			[outdoorTempBatteryIndicator setIntValue:[l integerValue]];
+			[outdoorTempBatteryIndicator setIntValue:([l isEqualToString:@"high"] == TRUE ) ? 2 : 1];
 			[outdoorLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[outdoorTempBatteryIndicator setIntValue:0];
@@ -71,7 +74,7 @@
 		
 		l = [levels objectForKey:[NSString stringWithFormat:@"%@0", KEY_LEVEL_SENSOR_]];
 		if (l) {
-			[indoorTempBatteryIndicator setIntValue:[l integerValue]];
+			[indoorTempBatteryIndicator setIntValue:([l isEqualToString:@"high"] == TRUE ) ? 2 : 1];
 			[indoorLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[indoorTempBatteryIndicator setIntValue:0];
@@ -80,16 +83,16 @@
 		
 		l = [levels objectForKey:KEY_LEVEL_UV];
 		if (l) {
-			[uvBatteryIndicator setIntValue:[l integerValue]];
+			[uvBatteryIndicator setIntValue:([l isEqualToString:@"high"] == TRUE ) ? 2 : 1];
 			[uvLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[uvBatteryIndicator setIntValue:0];
 			[uvLabel setTextColor:[NSColor grayColor]];
 		}
 		
-		l = [levels objectForKey:KEY_RADIO_CLOCK_SYNC];
-		if (l) {
-			[clockSynkIndicator setIntValue:[l integerValue]];
+		NSNumber *n = [levels objectForKey:KEY_RADIO_CLOCK_SYNC];
+		if (n) {
+			[clockSynkIndicator setIntValue:[n integerValue]];
 			[clockSynkLabel setTextColor:[NSColor blackColor]];
 		} else {
 			[clockSynkIndicator setIntValue:0];
@@ -120,7 +123,7 @@
 	// Immediatey change log settings
     [proxy setDebug:[NSNumber numberWithBool:[sender state]]];
 	// Also save settings
-	[settings setObject:[NSNumber numberWithBool:[sender state]] forKey:@"useDebugLogging"];
+	//[settings setObject:[NSNumber numberWithBool:[sender state]] forKey:@"useDebugLogging"];
 }
 
 /*

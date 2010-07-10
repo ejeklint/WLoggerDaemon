@@ -89,8 +89,7 @@ static BOOL gDebugPrint;
 #pragma mark Remote Objects methods BEGIN
 
 - (BOOL) setDebug: (NSNumber*) debug {
-	NSLog(@"Changed Debug setting to %d", [debug boolValue]);
-	
+		
 	gDebugPrint = [debug boolValue];
 	return gDebugPrint;
 }
@@ -103,6 +102,7 @@ static BOOL gDebugPrint;
 }
 
 - (NSDictionary *) getLevels {
+	NSLog(@"Returning current status %@", currentStatus);
 	return [NSDictionary dictionaryWithDictionary:currentStatus];
 }
 
