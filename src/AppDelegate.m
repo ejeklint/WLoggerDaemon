@@ -91,6 +91,8 @@ static BOOL gDebugPrint;
 - (BOOL) setDebug: (NSNumber*) debug {
 		
 	gDebugPrint = [debug boolValue];
+	CFPreferencesSetValue(CFSTR("useDebugLogging"), debug, APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
+	CFPreferencesSynchronize(APP_ID, kCFPreferencesAnyUser, kCFPreferencesCurrentHost);
 	return gDebugPrint;
 }
 

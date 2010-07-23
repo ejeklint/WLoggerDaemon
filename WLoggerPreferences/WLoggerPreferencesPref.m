@@ -38,9 +38,12 @@
 		[alert setInformativeText:@"Make sure that the WLoggerDaemon is installed and running."];
 		[alert setAlertStyle:NSWarningAlertStyle];
 		[alert beginSheetModalForWindow:[[NSApplication sharedApplication] keyWindow] modalDelegate:self didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:) contextInfo:nil];
+		return;
 	}
 	[spinner setDisplayedWhenStopped:NO];
-			
+	
+	[debugLogging setState:([[settings objectForKey:@"useDebugLogging"] intValue] == 1 ? NSOnState : NSOffState)];
+	
 	NSDictionary *levels = [proxy getLevels];
 	NSLog(@"Got levels %@", levels);
 	
@@ -122,8 +125,6 @@
 - (IBAction)debugClicked:(id)sender {
 	// Immediatey change log settings
     [proxy setDebug:[NSNumber numberWithBool:[sender state]]];
-	// Also save settings
-	//[settings setObject:[NSNumber numberWithBool:[sender state]] forKey:@"useDebugLogging"];
 }
 
 /*
