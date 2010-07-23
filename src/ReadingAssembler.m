@@ -174,12 +174,14 @@ static int minuteCycleDone;
 			
 			NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithCapacity:3];
 
-			// Sensors might report Heat Index. High nibble of rb[9] == 0 indicates Heat Index present - I think!
-			// NO, doesn't work. Check if temp > 27C instead if ((rb[9] & 0xf0) == 0) {
-			if (temp >= 27.0) {
-				double heatIndex = ([self roundedDoubleFromHighByte:(rb[9] & 0x0f) lowByte:rb[8] conversionFactor:1] - 32) / 1.8; // Convert from Fahrenheit
-				heatIndex = round(heatIndex * 10) / 10.0;
-				[userInfo setObject:[NSNumber numberWithDouble:heatIndex] forKey:KEY_HEAT_INDEX];
+			// Sensors might report Heat Index. Only interesting for outdoor.
+			if (sensor == 1) {
+				double heatIndexFahrenheit = [self roundedDoubleFromHighByte:(rb[9] & 0x0f) lowByte:rb[8] conversionFactor:1];
+				if (heatIndexFahrenheit > 0) {
+					double heatIndex = (heatIndexFahrenheit - 32) / 1.8; // Convert from Fahrenheit
+					heatIndex = round(heatIndex * 10) / 10.0;
+					[userInfo setObject:[NSNumber numberWithDouble:heatIndex] forKey:KEY_HEAT_INDEX];
+				}
 			}
 
 			if (sensor == 0) {

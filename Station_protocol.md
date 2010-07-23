@@ -117,8 +117,8 @@ Heat index is reported if temperature climbs over 80 F, 26.7 C.
 
 <table>
 	<tr><th>Byte 8-9</th><th>Heat Index</th></tr>
-	<tr><td>Byte 9, high nibble</td><td>0: heat index, 1: ?, 2: None</td></tr>
-	<tr><td>Byte 8 + 9</td><td>NB! Result in Fahrenheit: ((256*low nibble(byte 9) + byte 8) / 10</td></tr>
+	<tr><td>Byte 9, high nibble</td><td>?</td></tr>
+	<tr><td>Byte 8 + 9</td><td>Valid result in Fahrenheit if > 0: ((256*low nibble(byte 9) + byte 8) / 10</td></tr>
 </table>
 
 ####Wind
