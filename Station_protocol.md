@@ -197,10 +197,11 @@ Rain is reported in inches * 10, rain rate in inches/hour * 10. Divide by 10 to 
 UV Index is reported from the UVN800 sensor. It's an dimensionless value (whole number) from 0 and upwards.
 
 <table>
-	<tr><th>Length</th><th>5</th><th>Example: <code>00 47 05 4c 00</code> </th></tr>
+	<tr><th>Length</th><th>6</th><th>Example: <code>00 47 00 05 4c 00</code> </th></tr>
 	<tr><th>Byte</th><th>Data</th><th>Comment</th></tr>
 	<tr><td>0</td><td> <code>00</code> </td><td>Battery level in high nibble</td></tr>
 	<tr><td>1</td><td> <code>47</code> </td><td>Identifier</td></tr>
-	<tr><td>2</td><td> <code>05</code> </td><td>UV Index 5</td></tr>
-	<tr><td>3-4</td><td> <code>4c 00</code> </td><td>Checksum: 0x4c</td></tr>
+	<tr><td>2</td><td> <code>00</code> </td><td>Unknown</td></tr>
+	<tr><td>3</td><td> <code>05</code> </td><td>UV Index 5</td></tr>
+	<tr><td>4-5</td><td> <code>4c 00</code> </td><td>Checksum: 0x4c</td></tr>
 </table>
